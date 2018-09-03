@@ -86,8 +86,8 @@
 		634A26D2212FF53D008479DC /* StackOverflowClient */ = {
 			isa = PBXGroup;
 			children = (
-				633F9E6F213D1FED00479748 /* _common */,
 				634A26E6212FFBD4008479DC /* Classes */,
+				633F9E6F213D1FED00479748 /* _common */,
 				634A26E921301141008479DC /* Resources */,
 			);
 			path = StackOverflowClient;

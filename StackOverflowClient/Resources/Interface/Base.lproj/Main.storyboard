@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,12 +23,60 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="JMG-Ad-Zyb" customClass="TableViewCell" customModule="StackOverflowClient" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="JMG-Ad-Zyb" customClass="TableViewCell" customModule="StackOverflowClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JMG-Ad-Zyb" id="u51-by-dbN">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="MAV-YD-QMa" userLabel="Content Stack View">
+                                                    <rect key="frame" x="10" y="6" width="342" height="100"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r6M-Sp-Xhh">
+                                                            <rect key="frame" x="0.0" y="0.0" width="342" height="26"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Autor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j4N-cV-Q72">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="42.5" height="26"/>
+                                                                    <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="14"/>
+                                                                    <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="0J3-Yd-vVH">
+                                                                    <rect key="frame" x="42.5" y="0.0" width="299.5" height="26"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Modify Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Cp-5h-S6m">
+                                                                            <rect key="frame" x="207" y="0.0" width="92.5" height="14"/>
+                                                                            <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="14"/>
+                                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MDS-Co-5UZ">
+                                                                            <rect key="frame" x="285" y="14" width="14.5" height="12"/>
+                                                                            <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="12"/>
+                                                                            <color key="textColor" red="0.41229774749999998" green="0.1332502529" blue="0.22016984170000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                    </subviews>
+                                                                </stackView>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Case Question from StackOverflow layed on 2 lines which have line break in second line for long questions" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6I6-oO-twr">
+                                                            <rect key="frame" x="0.0" y="26" width="338" height="74"/>
+                                                            <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="14"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="MAV-YD-QMa" firstAttribute="leading" secondItem="u51-by-dbN" secondAttribute="leadingMargin" constant="-5" id="07N-bL-hGY"/>
+                                                <constraint firstItem="MAV-YD-QMa" firstAttribute="top" secondItem="u51-by-dbN" secondAttribute="topMargin" constant="-5" id="8mt-0d-N8J"/>
+                                                <constraint firstItem="r6M-Sp-Xhh" firstAttribute="width" secondItem="MAV-YD-QMa" secondAttribute="width" id="BV8-Ke-2cz"/>
+                                                <constraint firstItem="MAV-YD-QMa" firstAttribute="height" secondItem="u51-by-dbN" secondAttribute="height" id="pXw-Gr-VVu"/>
+                                                <constraint firstItem="MAV-YD-QMa" firstAttribute="width" secondItem="u51-by-dbN" secondAttribute="width" id="qIC-qa-bdn"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -50,7 +99,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="902" y="-564"/>
+            <point key="canvasLocation" x="901.60000000000002" y="-564.46776611694156"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ORz-47-UlU">
