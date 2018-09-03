@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		318285323601F16FD0287460 /* Pods_StackOverflowClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAA186DF002CB18AD89B775B /* Pods_StackOverflowClient.framework */; };
-		633F9E68213D164900479748 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633F9E67213D164900479748 /* TableViewController.swift */; };
-		633F9E6A213D1AA800479748 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633F9E69213D1AA800479748 /* TableViewCell.swift */; };
+		633F9E68213D164900479748 /* CaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633F9E67213D164900479748 /* CaseTableViewController.swift */; };
+		633F9E6A213D1AA800479748 /* CaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633F9E69213D1AA800479748 /* CaseTableViewCell.swift */; };
 		634A26D4212FF53D008479DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634A26D3212FF53D008479DC /* AppDelegate.swift */; };
 		634A26D9212FF53D008479DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 634A26D7212FF53D008479DC /* Main.storyboard */; };
 		634A26DB212FF53E008479DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 634A26DA212FF53E008479DC /* Assets.xcassets */; };
@@ -18,8 +18,8 @@
 
 /* Begin PBXFileReference section */
 		2A133381360129FFAC20275F /* Pods-StackOverflowClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StackOverflowClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-StackOverflowClient/Pods-StackOverflowClient.release.xcconfig"; sourceTree = "<group>"; };
-		633F9E67213D164900479748 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		633F9E69213D1AA800479748 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		633F9E67213D164900479748 /* CaseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseTableViewController.swift; sourceTree = "<group>"; };
+		633F9E69213D1AA800479748 /* CaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseTableViewCell.swift; sourceTree = "<group>"; };
 		634A26D0212FF53D008479DC /* StackOverflowClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StackOverflowClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		634A26D3212FF53D008479DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		634A26D8212FF53D008479DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				634A26D3212FF53D008479DC /* AppDelegate.swift */,
-				633F9E67213D164900479748 /* TableViewController.swift */,
+				633F9E67213D164900479748 /* CaseTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -122,7 +122,7 @@
 		634A26E8212FFCAF008479DC /* View */ = {
 			isa = PBXGroup;
 			children = (
-				633F9E69213D1AA800479748 /* TableViewCell.swift */,
+				633F9E69213D1AA800479748 /* CaseTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -291,9 +291,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				633F9E6A213D1AA800479748 /* TableViewCell.swift in Sources */,
+				633F9E6A213D1AA800479748 /* CaseTableViewCell.swift in Sources */,
 				634A26D4212FF53D008479DC /* AppDelegate.swift in Sources */,
-				633F9E68213D164900479748 /* TableViewController.swift in Sources */,
+				633F9E68213D164900479748 /* CaseTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

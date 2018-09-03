@@ -8,8 +8,13 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
-
+class CaseTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var caseAuthor: UILabel!
+    @IBOutlet weak var caseDate: UILabel!
+    @IBOutlet weak var caseNumAnswers: UILabel!
+    @IBOutlet weak var caseQuestion: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

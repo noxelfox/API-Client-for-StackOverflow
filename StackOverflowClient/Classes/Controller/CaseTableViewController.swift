@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class TableViewController: UITableViewController {
+class CaseTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
