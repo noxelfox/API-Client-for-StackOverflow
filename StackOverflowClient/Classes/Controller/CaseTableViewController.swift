@@ -58,7 +58,7 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
         let question = requestManager.questions[indexPath.row]
         // Configure the cell...
         cell.caseAuthor.text = question.questionAuthor
-        cell.caseDate.text = question.questionLastEdit.description
+        cell.caseDate.text = question.questionLastEdit.timeIntervalSinceNow.description
         cell.caseNumAnswers.text = question.questionNumAnswers.description
         cell.caseQuestion.text = question.questionTitle
         
