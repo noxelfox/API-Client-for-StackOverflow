@@ -12,6 +12,7 @@ import Alamofire
 class CaseTableViewController: UIViewController {
     
     let requestManager = RequestManager()
+    let dateFormatter = DateFormatter()
     
     var questions = [Question]()
 
@@ -37,7 +38,7 @@ class CaseTableViewController: UIViewController {
     
     func callAPIforQuestions() {
         Alamofire.request("\(RequestPaths.GetQuestions.getSwift)", method: .get).responseWelcome { response in
-            print("Rezult: \(response.result)")
+            print("Result: \(response.result)")
             print("Value: \(response.result.value!)")
             if let welcome = response.result.value {
                 for item in welcome.items {
@@ -74,10 +75,11 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CaseCell", for: indexPath) as! CaseTableViewCell
         let indexQuestion = questions[indexPath.row]
+        dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
         // Configure the cell...
         cell.caseAuthor.text = indexQuestion.questionAuthor
-        cell.caseDate.text = indexQuestion.questionLastEdit.description
-        cell.caseNumAnswers.text = indexQuestion.questionNumAnswers.description
+        cell.caseDate.text = dateFormatter.string(from: indexQuestion.questionLastEdit)
+        cell.caseNumAnswers.text = "|\(indexQuestion.questionNumAnswers.description)"
         cell.caseQuestion.text = indexQuestion.questionTitle
         
         return cell
