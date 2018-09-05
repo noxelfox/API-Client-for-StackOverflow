@@ -21,6 +21,7 @@ class CaseTableViewController: UIViewController {
         super.viewDidLoad()
         
         callAPIforQuestions()
+        navigationController?.title = "Swift"
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -41,11 +42,11 @@ class CaseTableViewController: UIViewController {
             if let welcome = response.result.value {
                 for item in welcome.items {
                     if item.lastEditDate == nil {
-                        let nullDate = item.creationDate
+                        let nullDate = item.lastActivityDate
                         let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: nullDate , questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int)
                         self.questions.append(question)
                     } else {
-                        let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: item.lastEditDate! as Date, questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int)
+                        let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: item.lastActivityDate as Date, questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int)
                         self.questions.append(question)
                     }
                 }

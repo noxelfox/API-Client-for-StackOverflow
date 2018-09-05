@@ -37,7 +37,8 @@ struct Item: Codable {
     let tags: [String]
     let owner: Owner
     let isAnswered: Bool
-    let viewCount, answerCount, score, lastActivityDate: Int
+    let viewCount, answerCount, score: Int
+    let lastActivityDate: Date
     let creationDate: Date
     let lastEditDate: Date?
     let questionID: Int
