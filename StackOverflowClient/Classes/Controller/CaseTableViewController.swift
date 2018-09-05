@@ -12,19 +12,15 @@ import Alamofire
 class CaseTableViewController: UIViewController {
     
     let requestManager = RequestManager()
+    
+    var questions = [Question]()
 
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        tableView.delegate = self
-//        tableView.dataSource = self
-        
-        requestManager.callAPIforQuestions()
-        print(requestManager.questions)
-        
-//        DispatchQueue.main.async {
-//            self.tableView.reloadData()
-//        }
+        callAPIforQuestions()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -36,6 +32,27 @@ class CaseTableViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func callAPIforQuestions() {
+        Alamofire.request("\(RequestPaths.GetQuestions.getSwift)", method: .get).responseWelcome { response in
+            print("Rezult: \(response.result)")
+            print("Value: \(response.result.value!)")
+            if let welcome = response.result.value {
+                for item in welcome.items {
+                    if item.lastEditDate == nil {
+                        let nullDate = item.creationDate
+                        let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: nullDate , questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int)
+                        self.questions.append(question)
+                    } else {
+                        let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: item.lastEditDate! as Date, questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int)
+                        self.questions.append(question)
+                    }
+                }
+            }
+            print(self.questions)
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -50,17 +67,17 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return requestManager.questions.count
+        return questions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CaseCell", for: indexPath) as! CaseTableViewCell
-        let question = requestManager.questions[indexPath.row]
+        let indexQuestion = questions[indexPath.row]
         // Configure the cell...
-        cell.caseAuthor.text = question.questionAuthor
-        cell.caseDate.text = question.questionLastEdit.timeIntervalSinceNow.description
-        cell.caseNumAnswers.text = question.questionNumAnswers.description
-        cell.caseQuestion.text = question.questionTitle
+        cell.caseAuthor.text = indexQuestion.questionAuthor
+        cell.caseDate.text = indexQuestion.questionLastEdit.description
+        cell.caseNumAnswers.text = indexQuestion.questionNumAnswers.description
+        cell.caseQuestion.text = indexQuestion.questionTitle
         
         return cell
     }

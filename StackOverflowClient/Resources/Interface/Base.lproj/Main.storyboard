@@ -31,28 +31,28 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="MAV-YD-QMa" userLabel="Content Stack View">
-                                                    <rect key="frame" x="10" y="6" width="337" height="100"/>
+                                                    <rect key="frame" x="10" y="11" width="337" height="100"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r6M-Sp-Xhh">
-                                                            <rect key="frame" x="0.0" y="0.0" width="337" height="26"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="337" height="24"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j4N-cV-Q72">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="50.5" height="26"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j4N-cV-Q72">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="50.5" height="24"/>
                                                                     <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="14"/>
-                                                                    <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                                                    <color key="textColor" red="0.41229774749999998" green="0.1332502529" blue="0.22016984170000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="0J3-Yd-vVH">
-                                                                    <rect key="frame" x="50.5" y="0.0" width="286.5" height="26"/>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="0J3-Yd-vVH" userLabel="Double Lable Stack View">
+                                                                    <rect key="frame" x="50.5" y="0.0" width="286.5" height="24"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Modify Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Cp-5h-S6m">
-                                                                            <rect key="frame" x="194" y="0.0" width="92.5" height="14"/>
-                                                                            <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="14"/>
+                                                                            <rect key="frame" x="207" y="0.0" width="79.5" height="12"/>
+                                                                            <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="12"/>
                                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MDS-Co-5UZ">
-                                                                            <rect key="frame" x="272" y="14" width="14.5" height="12"/>
+                                                                            <rect key="frame" x="272" y="12" width="14.5" height="12"/>
                                                                             <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="12"/>
                                                                             <color key="textColor" red="0.41229774749999998" green="0.1332502529" blue="0.22016984170000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
@@ -60,13 +60,10 @@
                                                                     </subviews>
                                                                 </stackView>
                                                             </subviews>
-                                                            <constraints>
-                                                                <constraint firstItem="j4N-cV-Q72" firstAttribute="height" secondItem="0J3-Yd-vVH" secondAttribute="height" id="ggk-1l-Q2L"/>
-                                                            </constraints>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Case Question from StackOverflow layed on 2 lines which have line break in second line for long questions" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6I6-oO-twr">
-                                                            <rect key="frame" x="0.0" y="26" width="334.5" height="74"/>
-                                                            <fontDescription key="fontDescription" name="ChalkboardSE-Light" family="Chalkboard SE" pointSize="14"/>
+                                                            <rect key="frame" x="0.0" y="24" width="334" height="76"/>
+                                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -75,7 +72,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="MAV-YD-QMa" firstAttribute="leading" secondItem="u51-by-dbN" secondAttribute="leadingMargin" constant="-5" id="07N-bL-hGY"/>
-                                                <constraint firstItem="MAV-YD-QMa" firstAttribute="top" secondItem="u51-by-dbN" secondAttribute="topMargin" constant="-5" id="8mt-0d-N8J"/>
+                                                <constraint firstItem="MAV-YD-QMa" firstAttribute="top" secondItem="u51-by-dbN" secondAttribute="topMargin" id="8mt-0d-N8J"/>
                                                 <constraint firstItem="r6M-Sp-Xhh" firstAttribute="width" secondItem="MAV-YD-QMa" secondAttribute="width" id="BV8-Ke-2cz"/>
                                                 <constraint firstItem="MAV-YD-QMa" firstAttribute="height" secondItem="u51-by-dbN" secondAttribute="height" id="pXw-Gr-VVu"/>
                                                 <constraint firstItem="MAV-YD-QMa" firstAttribute="width" secondItem="u51-by-dbN" secondAttribute="width" constant="-5" id="qIC-qa-bdn"/>
@@ -105,6 +102,9 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="bai-PZ-3n1"/>
+                    <connections>
+                        <outlet property="tableView" destination="JCY-6D-fye" id="Ozt-ze-AVP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
