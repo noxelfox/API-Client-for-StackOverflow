@@ -22,7 +22,7 @@ class CaseTableViewController: UIViewController {
         super.viewDidLoad()
         
         callAPIforQuestions()
-        navigationController?.title = "Swift"
+        self.title = "Swift"
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -80,9 +80,15 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
         cell.caseAuthor.text = indexQuestion.questionAuthor
         cell.caseDate.text = dateFormatter.string(from: indexQuestion.questionLastEdit)
         cell.caseNumAnswers.text = "|\(indexQuestion.questionNumAnswers.description)"
-        cell.caseQuestion.text = indexQuestion.questionTitle
+        cell.caseQuestion.text = decodeTitleSymbols(incodedTitle: indexQuestion.questionTitle)
         
         return cell
+    }
+    
+    func decodeTitleSymbols(incodedTitle: String) -> String{
+        var decodedTitle = incodedTitle.replacingOccurrences(of: "&#39;", with: "'", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "&quot;", with: "\"", options: .regularExpression, range: nil)
+        return decodedTitle
     }
     
     /*

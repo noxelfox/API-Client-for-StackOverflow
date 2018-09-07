@@ -42,7 +42,8 @@ struct Item: Codable {
     let creationDate: Date
     let lastEditDate: Date?
     let questionID: Int
-    let link, title: String
+    let link: String
+    let title: String
     let acceptedAnswerID, bountyAmount, bountyClosesDate: Int?
     
     enum CodingKeys: String, CodingKey {
@@ -89,14 +90,6 @@ func newJSONDecoder() -> JSONDecoder {
         decoder.dateDecodingStrategy = .secondsSince1970
     }
     return decoder
-}
-
-func newJSONEncoder() -> JSONEncoder {
-    let encoder = JSONEncoder()
-    if #available(iOS 10.0, OSX 10.12, tvOS 10.0, watchOS 3.0, *) {
-        encoder.dateEncodingStrategy = .iso8601
-    }
-    return encoder
 }
 
 // MARK: - Alamofire response handlers
