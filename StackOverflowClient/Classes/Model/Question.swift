@@ -14,4 +14,5 @@ struct Question {
     let questionLastEdit: Date
     let questionTitle: String
     let questionNumAnswers: Int
+    let questionId: Int
 }

@@ -40,19 +40,19 @@ class CaseTableViewController: UIViewController {
         Alamofire.request("\(RequestPaths.GetQuestions.getSwift)", method: .get).responseWelcome { response in
             print("Result: \(response.result)")
             print("Value: \(response.result.value!)")
-            if let welcome = response.result.value {
-                for item in welcome.items {
+            if let questionResponse = response.result.value {
+                for item in questionResponse.items {
                     if item.lastEditDate == nil {
                         let nullDate = item.lastActivityDate
-                        let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: nullDate , questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int)
+                        let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: nullDate , questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int, questionId: item.questionID)
                         self.questions.append(question)
                     } else {
-                        let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: item.lastActivityDate as Date, questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int)
+                        let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: item.lastActivityDate as Date, questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int, questionId: item.questionID)
                         self.questions.append(question)
                     }
                 }
             }
-            print(self.questions)
+//            print(self.questions)
             self.tableView.reloadData()
         }
     }
@@ -75,7 +75,9 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CaseCell", for: indexPath) as! CaseTableViewCell
         let indexQuestion = questions[indexPath.row]
+        
         dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
+        
         // Configure the cell...
         cell.caseAuthor.text = indexQuestion.questionAuthor
         cell.caseDate.text = dateFormatter.string(from: indexQuestion.questionLastEdit)
