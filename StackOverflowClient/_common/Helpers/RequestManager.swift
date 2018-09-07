@@ -10,26 +10,29 @@ import Foundation
 import Alamofire
 
 class RequestManager {
-//
-//    var questions = [Question]()
-//
-//    func callAPIforQuestions() {
-//        Alamofire.request("\(RequestPaths.GetQuestions.getSwift)", method: .get).responseWelcome { response in
-//            print("Rezult: \(response.result)")
-//            print("Value: \(response.result.value!)")
-//            if let welcome = response.result.value {
-//                for item in welcome.items {
-//                    if item.lastEditDate == nil {
-//                        let nullDate = item.creationDate
-//                        let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: nullDate , questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int)
-//                        self.questions.append(question)
-//                    } else {
-//                        let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: item.lastEditDate! as Date, questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int)
-//                        self.questions.append(question)
-//                    }
-//                }
-//            }
-//            print(self.questions)
-//        }
-//    }
+    
+    var page = 1
+    
+    func requestBuilder(tag: String, page: Int) -> String {
+        return RequestPaths.baseURL + "wfhifeifewfejoifewjfewjiofewiofeiojf\(tag)\(page)"
+        
+        switch tag {
+        case Tags.swift:
+            print("\(RequestPaths.baseURL)\(RequestPaths.RequestType.search)?\(RequestPaths.RequestComponents.pageNum)\(String(page))&\(RequestPaths.RequestComponents.pageSize)&\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.minAnswers)&\(RequestPaths.RequestComponents.taggedSwift)&\(RequestPaths.RequestComponents.site)")
+            return "\(RequestPaths.baseURL)\(RequestPaths.RequestType.search)?\(RequestPaths.RequestComponents.pageNum)\(String(page))&\(RequestPaths.RequestComponents.pageSize)&\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.minAnswers)&\(RequestPaths.RequestComponents.taggedSwift)&\(RequestPaths.RequestComponents.site)"
+        case Tags.objectiveC:
+            return "\(RequestPaths.baseURL)\(RequestPaths.RequestType.search)?\(RequestPaths.RequestComponents.pageNum)\(page)&\(RequestPaths.RequestComponents.pageSize)&\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.minAnswers)&\(RequestPaths.RequestComponents.taggedObjectiveC)&\(RequestPaths.RequestComponents.site)"
+        case Tags.iOS:
+            return "\(RequestPaths.baseURL)\(RequestPaths.RequestType.search)?\(RequestPaths.RequestComponents.pageNum)\(page)&\(RequestPaths.RequestComponents.pageSize)&\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.minAnswers)&\(RequestPaths.RequestComponents.taggedIOS)&\(RequestPaths.RequestComponents.site)"
+        case Tags.xCode:
+            return "\(RequestPaths.baseURL)\(RequestPaths.RequestType.search)?\(RequestPaths.RequestComponents.pageNum)\(page)&\(RequestPaths.RequestComponents.pageSize)&\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.minAnswers)&\(RequestPaths.RequestComponents.taggedXCode)&\(RequestPaths.RequestComponents.site)"
+        case Tags.cocoaTouch:
+            return "\(RequestPaths.baseURL)\(RequestPaths.RequestType.search)?\(RequestPaths.RequestComponents.pageNum)\(page)&\(RequestPaths.RequestComponents.pageSize)&\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.minAnswers)&\(RequestPaths.RequestComponents.taggedCocoaTouch)&\(RequestPaths.RequestComponents.site)"
+        case Tags.iPhone:
+            return "\(RequestPaths.baseURL)\(RequestPaths.RequestType.search)?\(RequestPaths.RequestComponents.pageNum)\(page)&\(RequestPaths.RequestComponents.pageSize)&\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.minAnswers)&\(RequestPaths.RequestComponents.taggedIPhone)&\(RequestPaths.RequestComponents.site)"
+        default:
+            return "\(RequestPaths.baseURL)\(RequestPaths.RequestType.search)?\(RequestPaths.RequestComponents.pageNum)1&\(RequestPaths.RequestComponents.pageSize)&\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.minAnswers)&\(RequestPaths.RequestComponents.taggedSwift)&\(RequestPaths.RequestComponents.site)"
+        }
+    }
+
 }

@@ -21,8 +21,8 @@ class CaseTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        callAPIforQuestions()
-        self.title = "Swift"
+        callAPIforQuestions(callTag: Tags.swift)
+        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -36,10 +36,11 @@ class CaseTableViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func callAPIforQuestions() {
-        Alamofire.request("\(RequestPaths.GetQuestions.getSwift)", method: .get).responseWelcome { response in
+    func callAPIforQuestions(callTag: String) {
+        self.title = callTag
+        Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: 1))", method: .get).responseWelcome { response in
             print("Result: \(response.result)")
-            print("Value: \(response.result.value!)")
+//            print("Value: \(response.result.value!)")
             if let questionResponse = response.result.value {
                 for item in questionResponse.items {
                     if item.lastEditDate == nil {
