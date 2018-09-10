@@ -16,13 +16,22 @@ class CaseTableViewController: UIViewController {
     
     var questions = [Question]()
     var page = 1
+    var activityIndicator: LoadMoreActivityIndicator!
+    var currentTag: String = Tags.swift
+    var hasMore: Bool = false
 
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        callAPIforQuestions(callTag: Tags.swift, callPage: page)
+        
+        
+        callAPIforQuestions(callTag: currentTag, callPage: page)
+        
+        tableView.tableFooterView = UIView()
+        activityIndicator = LoadMoreActivityIndicator(tableView: tableView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
+        print(tableView.frame)
         
 
         // Uncomment the following line to preserve selection between presentations
@@ -43,6 +52,7 @@ class CaseTableViewController: UIViewController {
             print("Result: \(response.result)")
 //            print("Value: \(response.result.value!)")
             if let questionResponse = response.result.value {
+                self.hasMore = questionResponse.hasMore
                 for item in questionResponse.items {
                     if item.lastEditDate == nil {
                         let nullDate = item.lastActivityDate
@@ -85,6 +95,27 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
         cell.caseQuestion.text = decodeTitleSymbols(incodedTitle: indexQuestion.questionTitle)
         
         return cell
+    }
+    
+    // MARK: - Load More Questions
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if hasMore == true {
+            activityIndicator.scrollViewDidScroll(scrollView: scrollView) {
+                DispatchQueue.global(qos: .utility).async {
+                    self.page = self.page + 1
+                    self.callAPIforQuestions(callTag: self.currentTag, callPage: self.page)
+                    for i in 0..<3 {
+                        print(i)
+                        sleep(1)
+                    }
+                    DispatchQueue.main.async { [weak self] in
+                        self?.tableView.reloadData()
+                        self?.activityIndicator.loadMoreActionFinshed(scrollView: scrollView)
+                    }
+                }
+            }
+        }
     }
     
     func decodeTitleSymbols(incodedTitle: String) -> String{
