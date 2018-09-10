@@ -15,13 +15,14 @@ class CaseTableViewController: UIViewController {
     let dateFormatter = DateFormatter()
     
     var questions = [Question]()
+    var page = 1
 
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        callAPIforQuestions(callTag: Tags.swift, callPage: 1)
+        callAPIforQuestions(callTag: Tags.swift, callPage: page)
         
 
         // Uncomment the following line to preserve selection between presentations

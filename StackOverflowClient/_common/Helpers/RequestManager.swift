@@ -11,8 +11,6 @@ import Alamofire
 
 class RequestManager {
     
-    var page = 1
-    
     func requestBuilder(tag: String, page: Int) -> String {
         
         switch tag {
