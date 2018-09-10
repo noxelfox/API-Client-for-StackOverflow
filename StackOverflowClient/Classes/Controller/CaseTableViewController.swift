@@ -17,7 +17,7 @@ class CaseTableViewController: UIViewController {
     
     var questions = [Question]()
     var page = 1
-    var activityIndicator: LoadMoreActivityIndicator!
+    var loadMoreIndicator: LoadMoreActivityIndicator!
     var currentTag: String = Tags.swift
     var hasMore: Bool = false
 
@@ -30,7 +30,7 @@ class CaseTableViewController: UIViewController {
         callAPIforQuestions(callTag: currentTag, callPage: page)
 
         tableView.tableFooterView = UIView()
-        activityIndicator = LoadMoreActivityIndicator(tableView: tableView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
+        loadMoreIndicator = LoadMoreActivityIndicator(tableView: tableView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
         print(tableView.frame)
     
         // Uncomment the following line to preserve selection between presentations
@@ -127,7 +127,7 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if hasMore == true {
-            activityIndicator.scrollViewDidScroll(scrollView: scrollView) {
+            loadMoreIndicator.scrollViewDidScroll(scrollView: scrollView) {
                 DispatchQueue.global(qos: .utility).async {
                     self.page = self.page + 1
                     self.callAPIforQuestions(callTag: self.currentTag, callPage: self.page)
@@ -137,7 +137,7 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
                     }
                     DispatchQueue.main.async { [weak self] in
                         self?.tableView.reloadData()
-                        self?.activityIndicator.loadMoreActionFinshed(scrollView: scrollView)
+                        self?.loadMoreIndicator.loadMoreActionFinshed(scrollView: scrollView)
                     }
                 }
             }
@@ -147,6 +147,7 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
     func decodeTitleSymbols(incodedTitle: String) -> String{
         var decodedTitle = incodedTitle.replacingOccurrences(of: "&#39;", with: "'", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "&quot;", with: "\"", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "&#252;", with: "ü", options: .regularExpression, range: nil)
         return decodedTitle
     }
     
