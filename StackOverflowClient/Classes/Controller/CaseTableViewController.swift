@@ -13,6 +13,7 @@ class CaseTableViewController: UIViewController {
     
     let requestManager = RequestManager()
     let dateFormatter = DateFormatter()
+    let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
     
     var questions = [Question]()
     var page = 1
@@ -25,15 +26,13 @@ class CaseTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
+        showLoadingTableIndicator()
         callAPIforQuestions(callTag: currentTag, callPage: page)
-        
+
         tableView.tableFooterView = UIView()
         activityIndicator = LoadMoreActivityIndicator(tableView: tableView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
         print(tableView.frame)
-        
-
+    
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -69,6 +68,7 @@ class CaseTableViewController: UIViewController {
                 }
             }
             self.tableView.reloadData()
+            self.hideLoadingTableIndicator()
         }
     }
     
@@ -76,6 +76,24 @@ class CaseTableViewController: UIViewController {
         page = 1
         currentTag = newTag
     }
+    
+    func showLoadingTableIndicator(){
+        loadTableIndicator.center = self.view.center;
+        loadTableIndicator.hidesWhenStopped = true;
+        loadTableIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        view.addSubview(loadTableIndicator);
+        
+        loadTableIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        
+    }
+    
+    func hideLoadingTableIndicator(){
+        loadTableIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
+        
+    }
+    
 }
 
 extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
