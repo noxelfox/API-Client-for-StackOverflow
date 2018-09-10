@@ -44,16 +44,20 @@ class CaseTableViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        questions.removeAll()
     }
     
     func callAPIforQuestions(callTag: String, callPage: Int) {
         self.title = callTag
         Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: callPage))", method: .get).responseResponseStruct { response in
             print("Result: \(response.result)")
-//            print("Value: \(response.result.value!)")
+            if response.result.error != nil {
+                print("Error: \(String(describing: response.result.error))")
+            }
             if let questionResponse = response.result.value {
                 self.hasMore = questionResponse.hasMore
-                for item in questionResponse.items {
+                guard let items = questionResponse.items else { return }
+                for item in items {
                     if item.lastEditDate == nil {
                         let nullDate = item.lastActivityDate
                         let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: nullDate , questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int, questionId: item.questionID)
@@ -64,9 +68,13 @@ class CaseTableViewController: UIViewController {
                     }
                 }
             }
-//            print(self.questions)
             self.tableView.reloadData()
         }
+    }
+    
+    func changeTag(newTag: String){
+        page = 1
+        currentTag = newTag
     }
 }
 
@@ -169,6 +177,9 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
      }
      */
 }
+
+
+// MARK: - Time ago date format
 
 extension Date {
     func timeAgoDisplay() -> String {

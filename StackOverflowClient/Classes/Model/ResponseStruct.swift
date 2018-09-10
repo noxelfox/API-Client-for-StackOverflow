@@ -21,7 +21,7 @@ import Foundation
 import Alamofire
 
 struct ResponseStruct: Codable {
-    let items: [Item]
+    let items: [Item]?
     let hasMore: Bool
     let quotaMax, quotaRemaining: Int
     
@@ -64,10 +64,13 @@ struct Item: Codable {
 }
 
 struct Owner: Codable {
-    let reputation, userID: Int
-    let userType: UserType
+    let reputation: Int? //Иногда обнаруживала nil
+    let userID: Int? //Иногда обнаруживала nil
+    let userType: String? //Иногда обнаруживала nil
     let acceptRate: Int?
-    let profileImage, displayName, link: String
+    let profileImage: String?
+    let displayName: String
+    let link: String?
     
     enum CodingKeys: String, CodingKey {
         case reputation
@@ -80,9 +83,9 @@ struct Owner: Codable {
     }
 }
 
-enum UserType: String, Codable {
-    case registered = "registered"
-}
+//enum UserType: String, Codable {
+//    case registered = "registered"
+//}
 
 func newJSONDecoder() -> JSONDecoder {
     let decoder = JSONDecoder()
