@@ -21,7 +21,7 @@ class CaseTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        callAPIforQuestions(callTag: Tags.swift)
+        callAPIforQuestions(callTag: Tags.swift, callPage: 1)
         
 
         // Uncomment the following line to preserve selection between presentations
@@ -36,9 +36,9 @@ class CaseTableViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func callAPIforQuestions(callTag: String) {
+    func callAPIforQuestions(callTag: String, callPage: Int) {
         self.title = callTag
-        Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: 1))", method: .get).responseResponseStruct { response in
+        Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: callPage))", method: .get).responseResponseStruct { response in
             print("Result: \(response.result)")
 //            print("Value: \(response.result.value!)")
             if let questionResponse = response.result.value {
@@ -77,11 +77,9 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CaseCell", for: indexPath) as! CaseTableViewCell
         let indexQuestion = questions[indexPath.row]
         
-        dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
-        
         // Configure the cell...
         cell.caseAuthor.text = indexQuestion.questionAuthor
-        cell.caseDate.text = dateFormatter.string(from: indexQuestion.questionLastEdit)
+        cell.caseDate.text = indexQuestion.questionLastEdit.timeAgoDisplay()
         cell.caseNumAnswers.text = "|\(indexQuestion.questionNumAnswers.description)"
         cell.caseQuestion.text = decodeTitleSymbols(incodedTitle: indexQuestion.questionTitle)
         
@@ -138,4 +136,31 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
      // Pass the selected object to the new view controller.
      }
      */
+}
+
+extension Date {
+    func timeAgoDisplay() -> String {
+        
+        let calendar = Calendar.current
+        let minuteAgo = calendar.date(byAdding: .minute, value: -1, to: Date())!
+        let hourAgo = calendar.date(byAdding: .hour, value: -1, to: Date())!
+        let dayAgo = calendar.date(byAdding: .day, value: -1, to: Date())!
+        let weekAgo = calendar.date(byAdding: .day, value: -7, to: Date())!
+        
+        if minuteAgo < self {
+            let diff = Calendar.current.dateComponents([.second], from: self, to: Date()).second ?? 0
+            return "\(diff) sec ago"
+        } else if hourAgo < self {
+            let diff = Calendar.current.dateComponents([.minute], from: self, to: Date()).minute ?? 0
+            return "\(diff) min ago"
+        } else if dayAgo < self {
+            let diff = Calendar.current.dateComponents([.hour], from: self, to: Date()).hour ?? 0
+            return "\(diff) hrs ago"
+        } else if weekAgo < self {
+            let diff = Calendar.current.dateComponents([.day], from: self, to: Date()).day ?? 0
+            return "\(diff) days ago"
+        }
+        let diff = Calendar.current.dateComponents([.weekOfYear], from: self, to: Date()).weekOfYear ?? 0
+        return "\(diff) weeks ago"
+    }
 }
