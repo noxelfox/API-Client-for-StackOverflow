@@ -14,7 +14,6 @@ class RequestManager {
     var page = 1
     
     func requestBuilder(tag: String, page: Int) -> String {
-        return RequestPaths.baseURL + "wfhifeifewfejoifewjfewjiofewiofeiojf\(tag)\(page)"
         
         switch tag {
         case Tags.swift:

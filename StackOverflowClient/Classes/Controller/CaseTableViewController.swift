@@ -38,7 +38,7 @@ class CaseTableViewController: UIViewController {
     
     func callAPIforQuestions(callTag: String) {
         self.title = callTag
-        Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: 1))", method: .get).responseWelcome { response in
+        Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: 1))", method: .get).responseResponseStruct { response in
             print("Result: \(response.result)")
 //            print("Value: \(response.result.value!)")
             if let questionResponse = response.result.value {
