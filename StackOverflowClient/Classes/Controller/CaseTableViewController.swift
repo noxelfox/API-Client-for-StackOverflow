@@ -226,3 +226,45 @@ extension Date {
         return "\(diff) weeks ago"
     }
 }
+
+//Надеюсь мне не придется это использовать
+//func callAPIforQuestions(callTag: String, callPage: Int) {
+//    self.title = callTag
+//    let cachedRequest = URLRequest(url: URL(string: "\(requestManager.requestBuilder(tag: callTag, page: callPage))")!, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20)
+//    Alamofire.request(cachedRequest).responseResponseStruct { response in
+//
+//        let cachedURLResponse = Alamofire.CachedURLResponse(response: response.response!, data: (response.data! as NSData) as Data, userInfo: [0  : response.result.value!], storagePolicy: .allowed)
+//
+//        URLCache.shared.storeCachedResponse(cachedURLResponse, for: response.request!)
+//
+//        self.cachedURL.storeCachedResponse(cachedURLResponse, for: cachedRequest)
+//
+//        //            self.cachedURL.removeCachedResponses(since: <#T##Date#>)
+//
+//        print("Result: \(response.result)")
+//        print("\(self.cachedURL)")
+//
+//        if response.result.error != nil {
+//            print("Error: \(String(describing: response.result.error))")
+//        }
+//
+//        //            if let questionResponse = response.result.value {
+//        if let questionResponse = cachedURLResponse.userInfo![0] as! ResponseStruct? {
+//            self.hasMore = questionResponse.hasMore
+//            guard let items = questionResponse.items else { return }
+//
+//            for item in items {
+//                if item.lastEditDate == nil {
+//                    let nullDate = item.lastActivityDate
+//                    let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: nullDate , questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int, questionId: item.questionID)
+//                    self.questions.append(question)
+//                } else {
+//                    let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: item.lastActivityDate as Date, questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int, questionId: item.questionID)
+//                    self.questions.append(question)
+//                }
+//            }
+//        }
+//        self.tableView.reloadData()
+//        self.hideLoadingTableIndicator()
+//    }
+//}
