@@ -67,7 +67,7 @@ class CaseTableViewController: UIViewController {
             
             // MARK: - Checking for cached response
             let hasCachedResponse = try? self.requestManager.storage?.existsObject(forKey: "cache \(callTag) \(callPage)")
-            print(hasCachedResponse.debugDescription)
+            print("HAS CACHE FOR RESPONSE: \(String(describing: hasCachedResponse.unsafelyUnwrapped!))")
             if hasCachedResponse == true {
                 actualResponse = try! self.requestManager.storage?.object(forKey: "cache \(callTag) \(callPage)")
             }
