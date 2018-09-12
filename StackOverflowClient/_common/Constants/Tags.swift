@@ -16,4 +16,5 @@ enum Tags {
     static let xCode = "X-Code"
     static let cocoaTouch = "Cocoa-Touch"
     static let iPhone = "iPhone"
+    static let tagArray = [swift,objectiveC,iOS,xCode,cocoaTouch,iPhone]
 }

@@ -26,7 +26,6 @@ class RequestManager {
         
         switch tag {
         case Tags.swift:
-            print("\(RequestPaths.baseURL)\(RequestPaths.RequestType.search)?\(RequestPaths.RequestComponents.pageNum)\(String(page))&\(RequestPaths.RequestComponents.pageSize)&\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.minAnswers)&\(RequestPaths.RequestComponents.taggedSwift)&\(RequestPaths.RequestComponents.site)")
             return "\(RequestPaths.baseURL)\(RequestPaths.RequestType.search)?\(RequestPaths.RequestComponents.pageNum)\(String(page))&\(RequestPaths.RequestComponents.pageSize)&\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.minAnswers)&\(RequestPaths.RequestComponents.taggedSwift)&\(RequestPaths.RequestComponents.site)"
         case Tags.objectiveC:
             return "\(RequestPaths.baseURL)\(RequestPaths.RequestType.search)?\(RequestPaths.RequestComponents.pageNum)\(page)&\(RequestPaths.RequestComponents.pageSize)&\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.minAnswers)&\(RequestPaths.RequestComponents.taggedObjectiveC)&\(RequestPaths.RequestComponents.site)"

@@ -30,6 +30,7 @@ class CaseTableViewController: UIViewController {
         
         showLoadingTableIndicator()
         callAPIforQuestions(callTag: currentTag, callPage: page)
+        tableView.reloadData()
         loadRefreshControll()
         addLoadMore()
         
@@ -49,51 +50,67 @@ class CaseTableViewController: UIViewController {
     }
     
     func callAPIforQuestions(callTag: String, callPage: Int) {
+        self.title = callTag
         
         // MARK: - Force removing cache if Expired
         try? requestManager.storage?.removeExpiredObjects()
         
-        self.title = callTag
-        Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: callPage))", method: .get).responseResponseStruct { response in
-            
-            var actualResponse = response.result.value
-            
-            // MARK: - Print response
-            if response.result.error != nil {
-                print("Error: \(String(describing: response.result.error))")
-            } else {
-                print("Result: \(response.result)")
+        let hasCachedResponse = try? self.requestManager.storage?.existsObject(forKey: "cache \(callTag) \(callPage)")
+        print("\nHAS CACHE FOR RESPONSE: \(String(describing: hasCachedResponse.unsafelyUnwrapped!).uppercased())\n")
+        
+        // MARK: - Checking for cached response. If FALSE - do API request
+        if hasCachedResponse == true {
+            questions.removeAll()
+            parseResponse(actualResponse: try! self.requestManager.storage?.object(forKey: "cache \(callTag) \(callPage)"))
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
-            
-            // MARK: - Checking for cached response
-            let hasCachedResponse = try? self.requestManager.storage?.existsObject(forKey: "cache \(callTag) \(callPage)")
-            print("HAS CACHE FOR RESPONSE: \(String(describing: hasCachedResponse.unsafelyUnwrapped!))")
-            if hasCachedResponse == true {
-                actualResponse = try! self.requestManager.storage?.object(forKey: "cache \(callTag) \(callPage)")
+        } else {
+            // MARK: - API request
+            Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: callPage))", method: .get).responseResponseStruct { response in
+                
+                let actualResponse = response.result.value
+                
+                // MARK: - Print response
+                print("\nCALL: \(self.requestManager.requestBuilder(tag: callTag, page: callPage))")
+                if response.result.error != nil {
+                    print("ERROR: \(String(describing: response.result.error))")
+                } else {
+                    print("RESULT: \(response.result)")
+                }
+                
+                //            // MARK: - Checking for cached response
+                //            if hasCachedResponse == true {
+                //                actualResponse = try! self.requestManager.storage?.object(forKey: "cache \(callTag) \(callPage)")
+                //            }
+                
+                // MARK: - Caching...
+                do {
+                    try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)", expiry: .date(Date().addingTimeInterval(1 * 300)))
+                } catch { print(error) }
+                
+                // MARK: - Parsing response <ResponseStruct> into Question object
+                self.parseResponse(actualResponse: actualResponse)
             }
-            
-            // MARK: - Caching...
-            do {
-                try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)", expiry: .date(Date().addingTimeInterval(1 * 300)))
-            } catch {
-                print(error)
-            }
-            
-            // MARK: - Parsing response <ResponseStruct> into Question object
-            if let questionResponse = actualResponse {
-                self.hasMore = questionResponse.hasMore
-                guard let items = questionResponse.items else { return }
-                for item in items {
-                    if item.lastEditDate == nil {
-                        let nullDate = item.lastActivityDate
-                        let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: nullDate , questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int, questionId: item.questionID)
-                        self.questions.append(question)
-                    } else {
-                        let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: item.lastActivityDate as Date, questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int, questionId: item.questionID)
-                        self.questions.append(question)
-                    }
+        }
+    }
+    
+    func parseResponse(actualResponse: ResponseStruct?){
+        if let questionResponse = actualResponse {
+            self.hasMore = questionResponse.hasMore
+            guard let items = questionResponse.items else { return }
+            for item in items {
+                if item.lastEditDate == nil {
+                    let nullDate = item.lastActivityDate
+                    let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: nullDate , questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int, questionId: item.questionID)
+                    self.questions.append(question)
+                } else {
+                    let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: item.lastActivityDate as Date, questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int, questionId: item.questionID)
+                    self.questions.append(question)
                 }
             }
+        }
+        DispatchQueue.main.async {
             self.tableView.reloadData()
             self.hideLoadingTableIndicator()
         }
@@ -138,8 +155,8 @@ class CaseTableViewController: UIViewController {
     }
     
     @objc private func refreshQuestionsData(_ sender: Any) {
-        // Fetch Weather Data
-        callAPIforQuestions(callTag: currentTag, callPage: page)
+        callAPIforQuestions(callTag: currentTag, callPage: 1)
+        self.tableView.reloadData()
         self.refreshControl.endRefreshing()
     }
     
@@ -163,7 +180,7 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
         let indexQuestion = questions[indexPath.row]
         
         // Configure the cell...
-        cell.caseAuthor.text = indexQuestion.questionAuthor
+        cell.caseAuthor.text = decodeTitleSymbols(incodedTitle: indexQuestion.questionAuthor)
         cell.caseDate.text = indexQuestion.questionLastEdit.timeAgoDisplay()
         cell.caseNumAnswers.text = "|\(indexQuestion.questionNumAnswers.description)"
         cell.caseQuestion.text = decodeTitleSymbols(incodedTitle: indexQuestion.questionTitle)
@@ -178,14 +195,28 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
             loadMoreIndicator.scrollViewDidScroll(scrollView: scrollView) {
                 DispatchQueue.global(qos: .utility).async {
                     self.page = self.page + 1
-                    self.callAPIforQuestions(callTag: self.currentTag, callPage: self.page)
-                    for i in 0..<3 {
-                        print(i)
-                        sleep(1)
-                    }
-                    DispatchQueue.main.async { [weak self] in
-                        self?.tableView.reloadData()
-                        self?.loadMoreIndicator.loadMoreActionFinshed(scrollView: scrollView)
+                    let hasCachedResponse = try? self.requestManager.storage?.existsObject(forKey: "cache \(self.currentTag) \(self.page)")
+                    
+                    if hasCachedResponse == true {
+                        self.parseResponse(actualResponse: try! self.requestManager.storage?.object(forKey: "cache \(self.currentTag) \(self.page)"))
+                        for i in 0..<3 {
+                            print(i)
+                            sleep(1)
+                        }
+                        DispatchQueue.main.async { [weak self] in
+                            self?.tableView.reloadData()
+                            self?.loadMoreIndicator.loadMoreActionFinshed(scrollView: scrollView)
+                        }
+                    } else {
+                        self.callAPIforQuestions(callTag: self.currentTag, callPage: self.page)
+                        for i in 0..<3 {
+                            print(i)
+                            sleep(1)
+                        }
+                        DispatchQueue.main.async { [weak self] in
+                            self?.tableView.reloadData()
+                            self?.loadMoreIndicator.loadMoreActionFinshed(scrollView: scrollView)
+                        }
                     }
                 }
             }
@@ -276,45 +307,3 @@ extension Date {
         return "\(diff) weeks ago"
     }
 }
-
-//Надеюсь мне не придется это использовать
-//func callAPIforQuestions(callTag: String, callPage: Int) {
-//    self.title = callTag
-//    let cachedRequest = URLRequest(url: URL(string: "\(requestManager.requestBuilder(tag: callTag, page: callPage))")!, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20)
-//    Alamofire.request(cachedRequest).responseResponseStruct { response in
-//
-//        let cachedURLResponse = Alamofire.CachedURLResponse(response: response.response!, data: (response.data! as NSData) as Data, userInfo: [0  : response.result.value!], storagePolicy: .allowed)
-//
-//        URLCache.shared.storeCachedResponse(cachedURLResponse, for: response.request!)
-//
-//        self.cachedURL.storeCachedResponse(cachedURLResponse, for: cachedRequest)
-//
-//        //            self.cachedURL.removeCachedResponses(since: <#T##Date#>)
-//
-//        print("Result: \(response.result)")
-//        print("\(self.cachedURL)")
-//
-//        if response.result.error != nil {
-//            print("Error: \(String(describing: response.result.error))")
-//        }
-//
-//        //            if let questionResponse = response.result.value {
-//        if let questionResponse = cachedURLResponse.userInfo![0] as! ResponseStruct? {
-//            self.hasMore = questionResponse.hasMore
-//            guard let items = questionResponse.items else { return }
-//
-//            for item in items {
-//                if item.lastEditDate == nil {
-//                    let nullDate = item.lastActivityDate
-//                    let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: nullDate , questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int, questionId: item.questionID)
-//                    self.questions.append(question)
-//                } else {
-//                    let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: item.lastActivityDate as Date, questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int, questionId: item.questionID)
-//                    self.questions.append(question)
-//                }
-//            }
-//        }
-//        self.tableView.reloadData()
-//        self.hideLoadingTableIndicator()
-//    }
-//}
