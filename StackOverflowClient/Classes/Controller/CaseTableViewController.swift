@@ -8,13 +8,14 @@
 
 import UIKit
 import Alamofire
+import Cache
 
 class CaseTableViewController: UIViewController {
     
     let requestManager = RequestManager()
     let dateFormatter = DateFormatter()
     let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
-    
+        
     var questions = [Question]()
     var page = 1
     var loadMoreIndicator: LoadMoreActivityIndicator!
@@ -39,21 +40,49 @@ class CaseTableViewController: UIViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
         questions.removeAll()
+        try? requestManager.storage?.removeAll()
     }
     
     func callAPIforQuestions(callTag: String, callPage: Int) {
+        
+        // MARK: - Force removing cache if Expired
+        try? requestManager.storage?.removeExpiredObjects()
+        
         self.title = callTag
         Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: callPage))", method: .get).responseResponseStruct { response in
-            print("Result: \(response.result)")
+            
+            var actualResponse = response.result.value
+            
+            // MARK: - Print response
             if response.result.error != nil {
                 print("Error: \(String(describing: response.result.error))")
+            } else {
+                print("Result: \(response.result)")
             }
-            if let questionResponse = response.result.value {
+            
+            // MARK: - Checking for cached response
+            let hasCachedResponse = try? self.requestManager.storage?.existsObject(forKey: "cache \(callTag) \(callPage)")
+            print(hasCachedResponse.debugDescription)
+            if hasCachedResponse == true {
+                actualResponse = try! self.requestManager.storage?.object(forKey: "cache \(callTag) \(callPage)")
+            }
+            
+            // MARK: - Caching...
+            do {
+                try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)")
+            } catch {
+                print(error)
+            }
+            
+            // MARK: - Parsing response <ResponseStruct> into Question object
+            if let questionResponse = actualResponse {
                 self.hasMore = questionResponse.hasMore
                 guard let items = questionResponse.items else { return }
                 for item in items {
@@ -148,6 +177,8 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
         var decodedTitle = incodedTitle.replacingOccurrences(of: "&#39;", with: "'", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "&quot;", with: "\"", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "&#252;", with: "ü", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "&gt;", with: ">", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "&lt;", with: "<", options: .regularExpression, range: nil)
         return decodedTitle
     }
     

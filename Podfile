@@ -6,4 +6,6 @@ target 'StackOverflowClient' do
 
   pod 'Alamofire'
 
+  pod 'Cache'
+
 end
