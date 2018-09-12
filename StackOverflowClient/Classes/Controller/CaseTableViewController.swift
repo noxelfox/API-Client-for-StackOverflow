@@ -76,7 +76,8 @@ class CaseTableViewController: UIViewController {
             
             // MARK: - Caching...
             do {
-                try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)")
+//                try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)")
+                try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)", expiry: .date(Date().addingTimeInterval(1 * 300)))
             } catch {
                 print(error)
             }
@@ -128,7 +129,6 @@ class CaseTableViewController: UIViewController {
 extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Table view data source
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -153,7 +153,6 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     // MARK: - Load More Questions
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if hasMore == true {
             loadMoreIndicator.scrollViewDidScroll(scrollView: scrollView) {
