@@ -15,6 +15,7 @@ class CaseTableViewController: UIViewController {
     let requestManager = RequestManager()
     let dateFormatter = DateFormatter()
     let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
+    private let refreshControl = UIRefreshControl()
         
     var questions = [Question]()
     var page = 1
@@ -29,10 +30,9 @@ class CaseTableViewController: UIViewController {
         
         showLoadingTableIndicator()
         callAPIforQuestions(callTag: currentTag, callPage: page)
-
-        tableView.tableFooterView = UIView()
-        loadMoreIndicator = LoadMoreActivityIndicator(tableView: tableView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
-        print(tableView.frame)
+        loadRefreshControll()
+        addLoadMore()
+        
     
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -40,8 +40,6 @@ class CaseTableViewController: UIViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -76,7 +74,6 @@ class CaseTableViewController: UIViewController {
             
             // MARK: - Caching...
             do {
-//                try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)")
                 try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)", expiry: .date(Date().addingTimeInterval(1 * 300)))
             } catch {
                 print(error)
@@ -102,6 +99,11 @@ class CaseTableViewController: UIViewController {
         }
     }
     
+    func addLoadMore(){
+        tableView.tableFooterView = UIView()
+        loadMoreIndicator = LoadMoreActivityIndicator(tableView: tableView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
+    }
+    
     func changeTag(newTag: String){
         page = 1
         currentTag = newTag
@@ -122,6 +124,23 @@ class CaseTableViewController: UIViewController {
         loadTableIndicator.stopAnimating();
         UIApplication.shared.endIgnoringInteractionEvents();
         
+    }
+    
+    func loadRefreshControll(){
+        // Add Refresh Control to Table View
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing questions...")
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+        refreshControl.addTarget(self, action: #selector(refreshQuestionsData(_:)), for: .valueChanged)
+    }
+    
+    @objc private func refreshQuestionsData(_ sender: Any) {
+        // Fetch Weather Data
+        callAPIforQuestions(callTag: currentTag, callPage: page)
+        self.refreshControl.endRefreshing()
     }
     
 }
@@ -151,6 +170,7 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+    
     
     // MARK: - Load More Questions
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
