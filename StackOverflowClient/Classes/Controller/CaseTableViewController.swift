@@ -155,7 +155,8 @@ class CaseTableViewController: UIViewController {
     }
     
     @objc private func refreshQuestionsData(_ sender: Any) {
-        callAPIforQuestions(callTag: currentTag, callPage: 1)
+        page = 1
+        callAPIforQuestions(callTag: currentTag, callPage: page)
         self.tableView.reloadData()
         self.refreshControl.endRefreshing()
     }
