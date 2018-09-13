@@ -24,9 +24,15 @@ class CaseTableViewController: UIViewController {
     var hasMore: Bool = false
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var pickerView: UIPickerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        hidePickerView()
+        
+        pickerView.delegate = self
+        pickerView.dataSource = self
         
         showLoadingTableIndicator()
         callAPIforQuestions(callTag: currentTag, callPage: page)
@@ -48,6 +54,15 @@ class CaseTableViewController: UIViewController {
         questions.removeAll()
         try? requestManager.storage?.removeAll()
     }
+    
+    @IBAction func buttonTapped(_ sender: Any) {
+        if pickerView.isHidden == true {
+            showPickerView()
+        } else {
+            hidePickerView()
+        }
+    }
+    
     
     func callAPIforQuestions(callTag: String, callPage: Int) {
         self.title = callTag
@@ -228,6 +243,7 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
         var decodedTitle = incodedTitle.replacingOccurrences(of: "&#39;", with: "'", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "&quot;", with: "\"", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "&#252;", with: "ü", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "&#246;", with: "ö", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "&gt;", with: ">", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "&lt;", with: "<", options: .regularExpression, range: nil)
         return decodedTitle
@@ -277,6 +293,58 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
      // Pass the selected object to the new view controller.
      }
      */
+}
+
+extension CaseTableViewController : UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return Tags.tagArray.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return Tags.tagArray[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        // This method is triggered whenever the user makes a change to the picker selection.
+        // The parameter named row and component represents what was selected.
+        currentTag = Tags.tagArray[row]
+        page = 1
+        showLoadingTableIndicator()
+        callAPIforQuestions(callTag: currentTag, callPage: page)
+    }
+    
+    public func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        let titleData = Tags.tagArray[row]
+        let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedStringKey.font:UIFont(name: "Helvetica", size: 20.0)!,NSAttributedStringKey.foregroundColor:UIColor.white])
+        return myTitle
+    }
+    
+    func showPickerView(){
+        
+        pickerView.isHidden = false
+        for constraint in self.view.constraints {
+            if constraint.identifier == "pickerTop" {
+                constraint.constant = -140
+            }
+        }
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    func hidePickerView(){
+        for constraint in self.view.constraints {
+            if constraint.identifier == "pickerTop" {
+                constraint.constant = 0
+            }
+        }
+        pickerView.layoutIfNeeded()
+        pickerView.isHidden = true
+    }
 }
 
 
