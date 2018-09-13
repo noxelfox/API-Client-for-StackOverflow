@@ -25,27 +25,20 @@ class CaseTableViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var pickerTop: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        hidePickerView()
-        
         pickerView.delegate = self
         pickerView.dataSource = self
+        pickerView.isHidden = true
         
         showLoadingTableIndicator()
         callAPIforQuestions(callTag: currentTag, callPage: page)
         tableView.reloadData()
         loadRefreshControll()
         addLoadMore()
-        
-    
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -68,12 +61,14 @@ class CaseTableViewController: UIViewController {
         self.title = callTag
         
         // MARK: - Force removing cache if Expired
+        
         try? requestManager.storage?.removeExpiredObjects()
         
         let hasCachedResponse = try? self.requestManager.storage?.existsObject(forKey: "cache \(callTag) \(callPage)")
         print("\nHAS CACHE FOR RESPONSE: \(String(describing: hasCachedResponse.unsafelyUnwrapped!).uppercased())\n")
         
         // MARK: - Checking for cached response. If FALSE - do API request
+        
         if hasCachedResponse == true {
             questions.removeAll()
             parseResponse(actualResponse: try! self.requestManager.storage?.object(forKey: "cache \(callTag) \(callPage)"))
@@ -81,12 +76,15 @@ class CaseTableViewController: UIViewController {
                 self.tableView.reloadData()
             }
         } else {
+            
             // MARK: - API request
+            
             Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: callPage))", method: .get).responseResponseStruct { response in
                 
                 let actualResponse = response.result.value
                 
                 // MARK: - Print response
+                
                 print("\nCALL: \(self.requestManager.requestBuilder(tag: callTag, page: callPage))")
                 if response.result.error != nil {
                     print("ERROR: \(String(describing: response.result.error))")
@@ -94,18 +92,21 @@ class CaseTableViewController: UIViewController {
                     print("RESULT: \(response.result)")
                 }
                 
-                //            // MARK: - Checking for cached response
-                //            if hasCachedResponse == true {
-                //                actualResponse = try! self.requestManager.storage?.object(forKey: "cache \(callTag) \(callPage)")
-                //            }
-                
                 // MARK: - Caching...
+                
                 do {
                     try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)", expiry: .date(Date().addingTimeInterval(1 * 300)))
                 } catch { print(error) }
                 
                 // MARK: - Parsing response <ResponseStruct> into Question object
+                
                 self.parseResponse(actualResponse: actualResponse)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }
     }
@@ -139,6 +140,8 @@ class CaseTableViewController: UIViewController {
     func changeTag(newTag: String){
         page = 1
         currentTag = newTag
+        showLoadingTableIndicator()
+        callAPIforQuestions(callTag: currentTag, callPage: page)
     }
     
     func showLoadingTableIndicator(){
@@ -175,12 +178,12 @@ class CaseTableViewController: UIViewController {
         self.tableView.reloadData()
         self.refreshControl.endRefreshing()
     }
-    
 }
+
+// MARK: - Table view data source
 
 extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
     
-    // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -206,6 +209,7 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
     
     
     // MARK: - Load More Questions
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if hasMore == true {
             loadMoreIndicator.scrollViewDidScroll(scrollView: scrollView) {
@@ -248,52 +252,9 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
         decodedTitle = decodedTitle.replacingOccurrences(of: "&lt;", with: "<", options: .regularExpression, range: nil)
         return decodedTitle
     }
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
 }
+
+// MARK: - PickerView Extension
 
 extension CaseTableViewController : UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -309,12 +270,14 @@ extension CaseTableViewController : UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        // This method is triggered whenever the user makes a change to the picker selection.
-        // The parameter named row and component represents what was selected.
-        currentTag = Tags.tagArray[row]
-        page = 1
-        showLoadingTableIndicator()
-        callAPIforQuestions(callTag: currentTag, callPage: page)
+//        currentTag = Tags.tagArray[row]
+//        page = 1
+        changeTag(newTag: Tags.tagArray[row])
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+//        showLoadingTableIndicator()
+//        callAPIforQuestions(callTag: currentTag, callPage: page)
     }
     
     public func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
@@ -324,26 +287,22 @@ extension CaseTableViewController : UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     func showPickerView(){
-        
         pickerView.isHidden = false
-        for constraint in self.view.constraints {
-            if constraint.identifier == "pickerTop" {
-                constraint.constant = -140
-            }
-        }
+        pickerTop.constant = -140
         UIView.animate(withDuration: 0.3, animations: {
+            self.tableView.contentInset.bottom = self.tableView.contentInset.bottom + 140
             self.view.layoutIfNeeded()
         })
     }
     
     func hidePickerView(){
-        for constraint in self.view.constraints {
-            if constraint.identifier == "pickerTop" {
-                constraint.constant = 0
-            }
+        pickerTop.constant = 0
+        UIView.animate(withDuration: 0.3, animations: {
+            self.tableView.contentInset.bottom = self.tableView.contentInset.bottom - 140
+            self.view.layoutIfNeeded()
+            }) { (true) in
+                self.pickerView.isHidden = true
         }
-        pickerView.layoutIfNeeded()
-        pickerView.isHidden = true
     }
 }
 

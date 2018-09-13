@@ -106,7 +106,7 @@
                             <constraint firstItem="JCY-6D-fye" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="7fC-eL-rfG"/>
                             <constraint firstItem="JCY-6D-fye" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Qre-bz-20e"/>
                             <constraint firstItem="JCY-6D-fye" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="X7Q-PR-6pB"/>
-                            <constraint firstItem="K2D-OH-zZ4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="bottom" identifier="pickerTop" id="iOT-QX-CW9"/>
+                            <constraint firstItem="K2D-OH-zZ4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="iOT-QX-CW9"/>
                             <constraint firstItem="K2D-OH-zZ4" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="k27-5R-pzB"/>
                             <constraint firstItem="K2D-OH-zZ4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="qmR-5I-isp"/>
                             <constraint firstItem="JCY-6D-fye" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="zSY-kE-9Pm"/>
@@ -123,6 +123,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="pickerTop" destination="iOT-QX-CW9" id="nBJ-6p-RPA"/>
                         <outlet property="pickerView" destination="K2D-OH-zZ4" id="Qv5-YP-PHD"/>
                         <outlet property="tableView" destination="JCY-6D-fye" id="Ozt-ze-AVP"/>
                     </connections>
