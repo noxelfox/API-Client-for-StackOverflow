@@ -138,6 +138,8 @@ class CaseTableViewController: UIViewController {
     }
     
     func changeTag(newTag: String){
+        questions.removeAll()
+        tableView.reloadData()
         page = 1
         currentTag = newTag
         showLoadingTableIndicator()
