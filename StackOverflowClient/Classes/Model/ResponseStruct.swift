@@ -1,21 +1,10 @@
 //
-//  Welcome.swift
+//  ResponseStruct.swift
 //  StackOverflowClient
 //
 //  Created by aivanovskij on 04.09.2018.
 //  Copyright © 2018 aivanovskij. All rights reserved.
 //
-// To parse the JSON, add this file to your project and do:
-//
-//   let welcome = try? newJSONDecoder().decode(Welcome.self, from: jsonData)
-//
-// To parse values from Alamofire responses:
-//
-//   Alamofire.request(url).responseWelcome { response in
-//     if let welcome = response.result.value {
-//       ...
-//     }
-//   }
 
 import Foundation
 import Alamofire
@@ -89,7 +78,7 @@ struct Owner: Codable {
 
 func newJSONDecoder() -> JSONDecoder {
     let decoder = JSONDecoder()
-    if #available(iOS 10.0, OSX 10.12, tvOS 10.0, watchOS 3.0, *) {
+    if #available(iOS 10.0, *) {
         decoder.dateDecodingStrategy = .secondsSince1970
     }
     return decoder

@@ -22,7 +22,6 @@ enum RequestPaths {
     enum RequestComponents {
         
         // MARK: - Page
-        // номер страницы будет формироваться динамически в Helpers?
         static let pageNum = "page="
         
         // MARK: - Page size

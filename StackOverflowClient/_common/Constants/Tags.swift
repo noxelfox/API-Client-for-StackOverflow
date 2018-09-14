@@ -8,12 +8,15 @@
 
 import Foundation
 
-enum Tags {
-    static let swift = "Swift"
-    static let objectiveC = "Objective-C"
-    static let iOS = "iOS"
-    static let xCode = "X-Code"
-    static let cocoaTouch = "Cocoa-Touch"
-    static let iPhone = "iPhone"
-    static let tagArray = [swift,objectiveC,iOS,xCode,cocoaTouch,iPhone]
+enum Tags: String {
+    case swift = "Swift"
+    case objectiveC = "Objective-C"
+    case iOS = "iOS"
+    case xCode = "X-Code"
+    case cocoaTouch = "Cocoa-Touch"
+    case iPhone = "iPhone"
+    
+    static let tagArray = [swift, objectiveC, iOS, xCode, cocoaTouch, iPhone]
 }
+
+

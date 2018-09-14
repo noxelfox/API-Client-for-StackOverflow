@@ -20,7 +20,7 @@ class CaseTableViewController: UIViewController {
     var questions = [Question]()
     var page = 1
     var loadMoreIndicator: LoadMoreActivityIndicator!
-    var currentTag: String = Tags.swift
+    var currentTag: Tags = .swift
     var hasMore: Bool = false
 
     @IBOutlet weak var tableView: UITableView!
@@ -57,8 +57,8 @@ class CaseTableViewController: UIViewController {
         }
     }
     
-    func callAPIforQuestions(callTag: String, callPage: Int) {
-        self.title = callTag
+    func callAPIforQuestions(callTag: Tags, callPage: Int) {
+        self.title = callTag.rawValue
         
         // MARK: - Force removing cache if Expired
         
@@ -137,7 +137,7 @@ class CaseTableViewController: UIViewController {
         loadMoreIndicator = LoadMoreActivityIndicator(tableView: tableView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
     }
     
-    func changeTag(newTag: String){
+    func changeTag(newTag: Tags){
         questions.removeAll()
         tableView.reloadData()
         page = 1
@@ -258,6 +258,7 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
 // MARK: - PickerView Extension
 
 extension CaseTableViewController : UIPickerViewDelegate, UIPickerViewDataSource {
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -267,7 +268,7 @@ extension CaseTableViewController : UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return Tags.tagArray[row]
+        return Tags.tagArray[row].rawValue
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -279,7 +280,7 @@ extension CaseTableViewController : UIPickerViewDelegate, UIPickerViewDataSource
     
     public func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let titleData = Tags.tagArray[row]
-        let myTitle = NSAttributedString(string: titleData, attributes: [NSAttributedStringKey.font:UIFont(name: "Helvetica", size: 20.0)!,NSAttributedStringKey.foregroundColor:UIColor.white])
+        let myTitle = NSAttributedString(string: titleData.rawValue, attributes: [NSAttributedStringKey.font:UIFont(name: "Helvetica", size: 20.0)!,NSAttributedStringKey.foregroundColor:UIColor.white])
         return myTitle
     }
     
