@@ -115,7 +115,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="bai-PZ-3n1">
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="4bX-hu-jZ3">
-                            <inset key="imageInsets" minX="0.0" minY="0.0" maxX="8" maxY="0.0"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="buttonTapped:" destination="BYZ-38-t0r" id="1qs-yP-j0Z"/>
