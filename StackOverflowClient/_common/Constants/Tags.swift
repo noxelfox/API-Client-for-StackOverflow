@@ -9,7 +9,6 @@
 import Foundation
 
 enum Tags {
-    
     static let swift = "Swift"
     static let objectiveC = "Objective-C"
     static let iOS = "iOS"

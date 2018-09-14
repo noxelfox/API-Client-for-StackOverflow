@@ -46,6 +46,7 @@ class CaseTableViewController: UIViewController {
         // Dispose of any resources that can be recreated.
         questions.removeAll()
         try? requestManager.storage?.removeAll()
+        tableView.reloadData()
     }
     
     @IBAction func buttonTapped(_ sender: Any) {
@@ -55,7 +56,6 @@ class CaseTableViewController: UIViewController {
             hidePickerView()
         }
     }
-    
     
     func callAPIforQuestions(callTag: String, callPage: Int) {
         self.title = callTag
@@ -154,17 +154,16 @@ class CaseTableViewController: UIViewController {
         
         loadTableIndicator.startAnimating();
         UIApplication.shared.beginIgnoringInteractionEvents();
-        
     }
     
     func hideLoadingTableIndicator(){
         loadTableIndicator.stopAnimating();
         UIApplication.shared.endIgnoringInteractionEvents();
-        
     }
     
+    // MARK: - Loading next page...
+    
     func loadRefreshControll(){
-        // Add Refresh Control to Table View
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing questions...")
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
@@ -272,14 +271,10 @@ extension CaseTableViewController : UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        currentTag = Tags.tagArray[row]
-//        page = 1
         changeTag(newTag: Tags.tagArray[row])
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-//        showLoadingTableIndicator()
-//        callAPIforQuestions(callTag: currentTag, callPage: page)
     }
     
     public func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
@@ -288,16 +283,16 @@ extension CaseTableViewController : UIPickerViewDelegate, UIPickerViewDataSource
         return myTitle
     }
     
-    func showPickerView(){
+    func showPickerView() {
         pickerView.isHidden = false
-        pickerTop.constant = -140
+        pickerTop.constant = -pickerView.bounds.height
         UIView.animate(withDuration: 0.3, animations: {
             self.tableView.contentInset.bottom = self.tableView.contentInset.bottom + 140
             self.view.layoutIfNeeded()
         })
     }
     
-    func hidePickerView(){
+    func hidePickerView() {
         pickerTop.constant = 0
         UIView.animate(withDuration: 0.3, animations: {
             self.tableView.contentInset.bottom = self.tableView.contentInset.bottom - 140

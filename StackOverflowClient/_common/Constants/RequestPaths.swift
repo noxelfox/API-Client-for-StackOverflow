@@ -48,14 +48,5 @@ enum RequestPaths {
         // MARK: - Site
         static let site = "site=stackoverflow"
     }
-    
-//    enum GetQuestions {
-//        static let getSwift = RequestPaths.baseURL + "/2.2/search/advanced?page=1&pagesize=100&order=desc&sort=activity&answers=1&tagged=swift&site=stackoverflow"
-//        static let getObjC = RequestPaths.baseURL + "/2.2/search/advanced?page=1&pagesize=100&order=desc&sort=activity&answers=1&tagged=objective-c&site=stackoverflow"
-//        static let getIOS = RequestPaths.baseURL + "/2.2/search/advanced?page=1&pagesize=100&order=desc&sort=activity&answers=1&tagged=ios&site=stackoverflow"
-//        static let getXcode = RequestPaths.baseURL + "/2.2/search/advanced?page=1&pagesize=100&order=desc&sort=activity&answers=1&tagged=xcode&site=stackoverflow"
-//        static let getCocoaTouch = RequestPaths.baseURL + "/2.2/search/advanced?page=1&pagesize=100&order=desc&sort=activity&answers=1&tagged=cocoa-touch&site=stackoverflow"
-//        static let getIphone = RequestPaths.baseURL + "/2.2/search/advanced?page=1&pagesize=100&order=desc&sort=activity&answers=1&tagged=iphone&site=stackoverflow"
-//    }
 }
 

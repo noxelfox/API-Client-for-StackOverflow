@@ -52,7 +52,6 @@ class LoadMoreActivityIndicator {
         if !isHidden && offsetY >= 0 {
             let contentDelta = scrollView.contentSize.height - scrollView.frame.size.height
             let offsetDelta = offsetY - contentDelta
-            
             let newY = defaultY-offsetDelta
             if newY < tableView.frame.height {
                 activityIndicatorView.frame.origin.y = newY
@@ -61,14 +60,12 @@ class LoadMoreActivityIndicator {
                     activityIndicatorView.frame.origin.y = defaultY
                 }
             }
-            
             if !activityIndicatorView.isAnimating {
                 if offsetY > contentDelta && offsetDelta >= spacingFromLastCellWhenLoadMoreActionStart && !activityIndicatorView.isAnimating {
                     activityIndicatorView.startAnimating()
                     loadMoreAction()
                 }
             }
-            
             if scrollView.isDecelerating {
                 if activityIndicatorView.isAnimating && scrollView.contentInset.bottom == 0 {
                     UIView.animate(withDuration: 0.3) { [weak self] in
@@ -82,7 +79,6 @@ class LoadMoreActivityIndicator {
     }
     
     func loadMoreActionFinshed(scrollView: UIScrollView) {
-        
         let contentDelta = scrollView.contentSize.height - scrollView.frame.size.height
         let offsetDelta = scrollView.contentOffset.y - contentDelta
         if offsetDelta >= 0 {
@@ -94,7 +90,6 @@ class LoadMoreActivityIndicator {
             // Hiding without animation when activity indicator displaying
             scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         }
-        
         activityIndicatorView.stopAnimating()
         activityIndicatorView.isHidden = false
     }

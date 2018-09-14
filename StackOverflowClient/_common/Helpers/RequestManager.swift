@@ -12,8 +12,8 @@ import Cache
 
 class RequestManager {
     
-    
     // MARK: - Cache config
+    
     let diskConfig = DiskConfig(name: "Questions_cache")
     let memoryConfig = MemoryConfig(expiry: .seconds(300), countLimit: 50, totalCostLimit: 0)
     lazy var storage = try? Storage(
