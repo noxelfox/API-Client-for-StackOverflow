@@ -83,13 +83,13 @@ class CaseTableViewController: UIViewController {
             
             // MARK: - API request
             
-            Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: callPage))", method: .get).responseQuestionResponse { response in
+            Alamofire.request("\(requestManager.questionRequestBuilder(tag: callTag, page: callPage))", method: .get).responseQuestionResponse { response in
                 
                 let actualResponse = response.result.value
                 
                 // MARK: - Print response
                 
-                print("\nCALL: \(self.requestManager.requestBuilder(tag: callTag, page: callPage))")
+                print("\nCALL: \(self.requestManager.questionRequestBuilder(tag: callTag, page: callPage))")
                 if response.result.error != nil {
                     print("ERROR: \(String(describing: response.result.error))")
                 } else {
@@ -165,10 +165,10 @@ class CaseTableViewController: UIViewController {
         UIApplication.shared.endIgnoringInteractionEvents();
     }
     
-    // MARK: - Loading next page...
+    // MARK: - Refresh questions
     
     func loadRefreshControll(){
-        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing questions...")
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing data...")
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
         } else {
@@ -183,6 +183,8 @@ class CaseTableViewController: UIViewController {
         self.tableView.reloadData()
         self.refreshControl.endRefreshing()
     }
+    
+    // MARK: - Shake gesture
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
         if motion == .motionShake {

@@ -10,7 +10,8 @@ import UIKit
 
 class AnswersViewController: UIViewController {
     
-  
+    var answers = [Case]()
+    
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {

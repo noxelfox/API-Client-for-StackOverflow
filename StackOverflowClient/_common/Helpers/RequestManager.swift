@@ -22,7 +22,7 @@ class RequestManager {
         transformer: TransformerFactory.forCodable(ofType: QuestionResponse.self) // Storage<ResponseQuestions>
     )
     
-    func requestBuilder(tag: Tags, page: Int) -> String {
+    func questionRequestBuilder(tag: Tags, page: Int) -> String {
         switch tag {
         case .swift:
             return "\(RequestPaths.baseURL)\(RequestPaths.RequestType.search)?\(RequestPaths.RequestComponents.pageNum)\(String(page))&\(RequestPaths.RequestComponents.pageSize)&\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.minAnswers)&\(RequestPaths.RequestComponents.taggedSwift)&\(RequestPaths.RequestComponents.site)"
@@ -38,5 +38,8 @@ class RequestManager {
             return "\(RequestPaths.baseURL)\(RequestPaths.RequestType.search)?\(RequestPaths.RequestComponents.pageNum)\(page)&\(RequestPaths.RequestComponents.pageSize)&\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.minAnswers)&\(RequestPaths.RequestComponents.taggedIPhone)&\(RequestPaths.RequestComponents.site)"
         }
     }
-
+    
+    func answerRequestBuilder(id: Int) -> String {
+        return "\(RequestPaths.baseURL)\(RequestPaths.RequestType.questions)\(String(id))?\(RequestPaths.RequestComponents.order)&\(RequestPaths.RequestComponents.sortActivity)&\(RequestPaths.RequestComponents.site)&\(RequestPaths.RequestComponents.filter)"
+    }
 }

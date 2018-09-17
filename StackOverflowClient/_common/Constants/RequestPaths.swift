@@ -17,6 +17,7 @@ enum RequestPaths {
         
         // MARK: Type (Ищем все вопросы, отвечающие установленным в компонентах критериям)
         static let search = "search/advanced"
+        static let questions = "questions/"
     }
     
     enum RequestComponents {
@@ -46,6 +47,9 @@ enum RequestPaths {
         
         // MARK: - Site
         static let site = "site=stackoverflow"
+        
+        // MARK: - Filter
+        static let filter = "filter=!)IMBoe*3Ii(7aIF6AVZ6(nLHXlLz-2nad2J1"
     }
 }
 
