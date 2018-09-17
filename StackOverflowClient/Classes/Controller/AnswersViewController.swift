@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import Cache
 
 class AnswersViewController: UIViewController {
     
@@ -46,11 +48,19 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return answers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AnswerCell", for: indexPath) as! CaseTableViewCell
+        let indexAnswer = answers[indexPath.row]
+        
+        // Configure the cell...
+        cell.caseAuthor.text = decodeTitleSymbols(incodedTitle: indexAnswer.caseAuthor)
+        cell.caseDate.text = indexAnswer.caseLastEdit.timeAgoDisplay()
+        cell.caseNumAnswers.text = "|\(indexAnswer.caseNum.description)"
+        cell.caseQuestion.text = decodeTitleSymbols(incodedTitle: indexAnswer.caseTitle)
+        
         return cell
     }
     

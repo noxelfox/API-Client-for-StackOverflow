@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		318285323601F16FD0287460 /* Pods_StackOverflowClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAA186DF002CB18AD89B775B /* Pods_StackOverflowClient.framework */; };
-		633F9E68213D164900479748 /* CaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633F9E67213D164900479748 /* CaseTableViewController.swift */; };
+		633F9E68213D164900479748 /* QuestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633F9E67213D164900479748 /* QuestionsViewController.swift */; };
 		633F9E6A213D1AA800479748 /* CaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633F9E69213D1AA800479748 /* CaseTableViewCell.swift */; };
 		633F9E73213D501800479748 /* RequestPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633F9E72213D501800479748 /* RequestPaths.swift */; };
 		633F9E75213D63BB00479748 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633F9E74213D63BB00479748 /* RequestManager.swift */; };
@@ -26,7 +26,7 @@
 
 /* Begin PBXFileReference section */
 		2A133381360129FFAC20275F /* Pods-StackOverflowClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StackOverflowClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-StackOverflowClient/Pods-StackOverflowClient.release.xcconfig"; sourceTree = "<group>"; };
-		633F9E67213D164900479748 /* CaseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseTableViewController.swift; sourceTree = "<group>"; };
+		633F9E67213D164900479748 /* QuestionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsViewController.swift; sourceTree = "<group>"; };
 		633F9E69213D1AA800479748 /* CaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseTableViewCell.swift; sourceTree = "<group>"; };
 		633F9E72213D501800479748 /* RequestPaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaths.swift; sourceTree = "<group>"; };
 		633F9E74213D63BB00479748 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
@@ -116,7 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				634A26D3212FF53D008479DC /* AppDelegate.swift */,
-				633F9E67213D164900479748 /* CaseTableViewController.swift */,
+				633F9E67213D164900479748 /* QuestionsViewController.swift */,
 				638ECA65214FBB2B004F474E /* AnswersViewController.swift */,
 			);
 			path = Controller;
@@ -326,7 +326,7 @@
 				63928B742142B35100A8028B /* Tags.swift in Sources */,
 				633F9E73213D501800479748 /* RequestPaths.swift in Sources */,
 				638ECA6C214FDACE004F474E /* AnswerResponse.swift in Sources */,
-				633F9E68213D164900479748 /* CaseTableViewController.swift in Sources */,
+				633F9E68213D164900479748 /* QuestionsViewController.swift in Sources */,
 				63EC0836213E9BC800F4AF43 /* QuestionResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

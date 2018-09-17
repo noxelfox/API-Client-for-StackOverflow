@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import Cache
 
-class CaseTableViewController: UIViewController {
+class QuestionsViewController: UIViewController {
     
     let requestManager = RequestManager()
     let dateFormatter = DateFormatter()
@@ -115,6 +115,8 @@ class CaseTableViewController: UIViewController {
         }
     }
     
+    // MARK: - Parsing response
+    
     func parseResponse(actualResponse: QuestionResponse?){
         if let questionResponse = actualResponse {
             self.hasMore = questionResponse.hasMore
@@ -149,6 +151,8 @@ class CaseTableViewController: UIViewController {
         showLoadingTableIndicator()
         callAPIforQuestions(callTag: currentTag, callPage: page)
     }
+    
+    // MARK: - Loading Indecator
     
     func showLoadingTableIndicator(){
         loadTableIndicator.center = self.view.center;
@@ -195,7 +199,7 @@ class CaseTableViewController: UIViewController {
 
 // MARK: - Table view data source
 
-extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
+extension QuestionsViewController : UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -269,7 +273,7 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - PickerView Extension
 
-extension CaseTableViewController : UIPickerViewDelegate, UIPickerViewDataSource {
+extension QuestionsViewController : UIPickerViewDelegate, UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1

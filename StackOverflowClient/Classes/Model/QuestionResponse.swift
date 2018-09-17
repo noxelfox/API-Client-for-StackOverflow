@@ -1,5 +1,5 @@
 //
-//  ResponseStruct.swift
+//  QuestionResponse.swift
 //  StackOverflowClient
 //
 //  Created by aivanovskij on 04.09.2018.
