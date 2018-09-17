@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-struct ResponseStruct: Codable {
+struct ResponseQuestions: Codable {
     let items: [Item]?
     let hasMore: Bool
     let quotaMax, quotaRemaining: Int
@@ -105,7 +105,7 @@ extension DataRequest {
     }
     
     @discardableResult
-    func responseResponseStruct(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<ResponseStruct>) -> Void) -> Self {
+    func responseResponseQuestions(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<ResponseQuestions>) -> Void) -> Self {
         return responseDecodable(queue: queue, completionHandler: completionHandler)
     }
 }

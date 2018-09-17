@@ -83,7 +83,7 @@ class CaseTableViewController: UIViewController {
             
             // MARK: - API request
             
-            Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: callPage))", method: .get).responseResponseStruct { response in
+            Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: callPage))", method: .get).responseResponseQuestions { response in
                 
                 let actualResponse = response.result.value
                 
@@ -115,7 +115,7 @@ class CaseTableViewController: UIViewController {
         }
     }
     
-    func parseResponse(actualResponse: ResponseStruct?){
+    func parseResponse(actualResponse: ResponseQuestions?){
         if let questionResponse = actualResponse {
             self.hasMore = questionResponse.hasMore
             guard let items = questionResponse.items else { return }
