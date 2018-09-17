@@ -8,11 +8,12 @@
 
 import Foundation
 
-struct Question {
+struct Case {
     
-    let questionAuthor: String
-    let questionLastEdit: Date
-    let questionTitle: String
-    let questionNumAnswers: Int
-    let questionId: Int
+    let caseAuthor: String
+    let caseLastEdit: Date
+    let caseTitle: String
+    let caseNum: Int
+    let caseId: Int
+    let isAccepted: Bool?
 }

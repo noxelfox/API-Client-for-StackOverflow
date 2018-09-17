@@ -87,7 +87,7 @@ struct AnswerOwner: Codable {
 func answerJSONDecoder() -> JSONDecoder {
     let decoder = JSONDecoder()
     if #available(iOS 10.0, *) {
-        decoder.dateDecodingStrategy = .iso8601
+        decoder.dateDecodingStrategy = .secondsSince1970
     }
     return decoder
 }

@@ -19,7 +19,7 @@ class RequestManager {
     lazy var storage = try? Storage(
         diskConfig: diskConfig,
         memoryConfig: memoryConfig,
-        transformer: TransformerFactory.forCodable(ofType: ResponseQuestions.self) // Storage<ResponseQuestions>
+        transformer: TransformerFactory.forCodable(ofType: QuestionResponse.self) // Storage<ResponseQuestions>
     )
     
     func requestBuilder(tag: Tags, page: Int) -> String {

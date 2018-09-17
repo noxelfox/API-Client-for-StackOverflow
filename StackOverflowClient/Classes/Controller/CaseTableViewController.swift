@@ -17,7 +17,7 @@ class CaseTableViewController: UIViewController {
     let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
     private let refreshControl = UIRefreshControl()
         
-    var questions = [Question]()
+    var questions = [Case]()
     var page = 1
     var loadMoreIndicator: LoadMoreActivityIndicator!
     var currentTag: Tags = .swift
@@ -83,7 +83,7 @@ class CaseTableViewController: UIViewController {
             
             // MARK: - API request
             
-            Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: callPage))", method: .get).responseResponseQuestions { response in
+            Alamofire.request("\(requestManager.requestBuilder(tag: callTag, page: callPage))", method: .get).responseQuestionResponse { response in
                 
                 let actualResponse = response.result.value
                 
@@ -115,17 +115,17 @@ class CaseTableViewController: UIViewController {
         }
     }
     
-    func parseResponse(actualResponse: ResponseQuestions?){
+    func parseResponse(actualResponse: QuestionResponse?){
         if let questionResponse = actualResponse {
             self.hasMore = questionResponse.hasMore
             guard let items = questionResponse.items else { return }
             for item in items {
                 if item.lastEditDate == nil {
                     let nullDate = item.lastActivityDate
-                    let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: nullDate , questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int, questionId: item.questionID)
+                    let question = Case(caseAuthor: item.owner.displayName as String, caseLastEdit: nullDate , caseTitle: item.title as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil)
                     self.questions.append(question)
                 } else {
-                    let question = Question(questionAuthor: item.owner.displayName as String, questionLastEdit: item.lastActivityDate as Date, questionTitle: item.title as String, questionNumAnswers: item.answerCount as Int, questionId: item.questionID)
+                    let question = Case(caseAuthor: item.owner.displayName as String, caseLastEdit: item.lastActivityDate as Date, caseTitle: item.title as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil)
                     self.questions.append(question)
                 }
             }
@@ -210,10 +210,10 @@ extension CaseTableViewController : UITableViewDelegate, UITableViewDataSource {
         let indexQuestion = questions[indexPath.row]
         
         // Configure the cell...
-        cell.caseAuthor.text = decodeTitleSymbols(incodedTitle: indexQuestion.questionAuthor)
-        cell.caseDate.text = indexQuestion.questionLastEdit.timeAgoDisplay()
-        cell.caseNumAnswers.text = "|\(indexQuestion.questionNumAnswers.description)"
-        cell.caseQuestion.text = decodeTitleSymbols(incodedTitle: indexQuestion.questionTitle)
+        cell.caseAuthor.text = decodeTitleSymbols(incodedTitle: indexQuestion.caseAuthor)
+        cell.caseDate.text = indexQuestion.caseLastEdit.timeAgoDisplay()
+        cell.caseNumAnswers.text = "|\(indexQuestion.caseNum.description)"
+        cell.caseQuestion.text = decodeTitleSymbols(incodedTitle: indexQuestion.caseTitle)
         
         return cell
     }
