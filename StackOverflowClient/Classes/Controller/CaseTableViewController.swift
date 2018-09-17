@@ -49,6 +49,10 @@ class CaseTableViewController: UIViewController {
         tableView.reloadData()
     }
     
+    override func becomeFirstResponder() -> Bool {
+        return true
+    }
+    
     @IBAction func buttonTapped(_ sender: Any) {
         if pickerView.isHidden == true {
             showPickerView()
@@ -178,6 +182,12 @@ class CaseTableViewController: UIViewController {
         callAPIforQuestions(callTag: currentTag, callPage: page)
         self.tableView.reloadData()
         self.refreshControl.endRefreshing()
+    }
+    
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            print("shaked")
+        }
     }
 }
 
