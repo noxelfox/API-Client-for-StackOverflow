@@ -13,6 +13,8 @@ import Cache
 class AnswersViewController: UIViewController {
     
     let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
+    let requestManager = RequestManager()
+    let dateFormatter = DateFormatter()
     
     var answers = [Case]()
     var questionID: Int = 0
@@ -25,7 +27,7 @@ class AnswersViewController: UIViewController {
         self.title = questionID.description
         
 //        showLoadingTableIndicator()
-//        callAPIforQuestions(callTag: currentTag, callPage: page)
+        callAPIforAnswers(questionID: questionID)
         tableView.reloadData()
 //        loadRefreshControll()
 //        addLoadMore()
@@ -40,10 +42,52 @@ class AnswersViewController: UIViewController {
     
     func callAPIforAnswers(questionID: Int){
         
+        Alamofire.request("\(requestManager.answerRequestBuilder(id: questionID))", method: .get).responseAnswerResponse { response in
+            
+            let actualResponse = response.result.value
+            
+            // MARK: - Print response
+            print("\nCALL: \(self.requestManager.answerRequestBuilder(id: questionID))")
+            if response.result.error != nil {
+                print("ERROR: \(String(describing: response.result.error))")
+            } else {
+                print("RESULT: \(response.result)")
+            }
+            
+            // MARK: - Parsing response <QuestionResponse> into Case object
+            
+            self.parseAnswersResponse(actualResponse: actualResponse)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func parseAnswersResponse(actualResponse: AnswerResponse?){
         
+        if let answerResponse = actualResponse {
+            guard let items = answerResponse.items else { return }
+            for item in items {
+                guard let answerItems = item.answers else { return }
+                print(item.owner)
+                print(item.title)
+                print(item.score)
+                print(item.body!)
+                for answerItem in answerItems {
+                    if answerItem.lastEditDate == nil {
+                        let nullDate = answerItem.lastActivityDate
+                        let answer = Case(caseAuthor: answerItem.owner.displayName as String, caseLastEdit: nullDate, caseTitle: answerItem.body as String, caseNum: answerItem.score as Int, caseId: answerItem.answerID, isAccepted: answerItem.isAccepted)
+                        self.answers.append(answer)
+                    } else {
+                        let answer = Case(caseAuthor: answerItem.owner.displayName as String, caseLastEdit: answerItem.lastActivityDate, caseTitle: answerItem.body as String, caseNum: answerItem.score as Int, caseId: answerItem.answerID, isAccepted: answerItem.isAccepted)
+                        self.answers.append(answer)
+                    }
+                }
+            }
+        }
         DispatchQueue.main.async {
             self.tableView.reloadData()
             self.hideLoadingTableIndicator()
@@ -78,12 +122,11 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AnswerCell", for: indexPath) as! CaseTableViewCell
         let indexAnswer = answers[indexPath.row]
-        
         // Configure the cell...
-        cell.caseAuthor.text = indexAnswer.caseAuthor.decodeTitleSymbols()
-        cell.caseDate.text = indexAnswer.caseLastEdit.timeAgoDisplay()
-        cell.caseNumAnswers.text = "|\(indexAnswer.caseNum.description)"
-        cell.caseText.text = indexAnswer.caseTitle.decodeTitleSymbols()
+        cell.cellAuthor.text = indexAnswer.caseAuthor.decodeTitleSymbols()
+        cell.cellDate.text = indexAnswer.caseLastEdit.timeAgoDisplay()
+        cell.cellNumAnswers.text = "±\(indexAnswer.caseNum.description)"
+        cell.cellText.text = indexAnswer.caseTitle.decodeTitleSymbols()
         
         return cell
     }

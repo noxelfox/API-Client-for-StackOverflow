@@ -103,7 +103,7 @@ class QuestionsViewController: UIViewController {
                     try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)", expiry: .date(Date().addingTimeInterval(1 * 300)))
                 } catch { print(error) }
                 
-                // MARK: - Parsing response <ResponseStruct> into Question object
+                // MARK: - Parsing response <QuestionResponse> into Case object
                 
                 self.parseQuestionResponse(actualResponse: actualResponse)
                 DispatchQueue.main.async {
@@ -208,10 +208,10 @@ extension QuestionsViewController : UITableViewDelegate, UITableViewDataSource {
         let indexQuestion = questions[indexPath.row]
         
         // Configure the cell...
-        cell.caseAuthor.text = indexQuestion.caseAuthor.decodeTitleSymbols()
-        cell.caseDate.text = indexQuestion.caseLastEdit.timeAgoDisplay()
-        cell.caseNumAnswers.text = "|\(indexQuestion.caseNum.description)"
-        cell.caseText.text = indexQuestion.caseTitle.decodeTitleSymbols()
+        cell.cellAuthor.text = indexQuestion.caseAuthor.decodeTitleSymbols()
+        cell.cellDate.text = indexQuestion.caseLastEdit.timeAgoDisplay()
+        cell.cellNumAnswers.text = "|\(indexQuestion.caseNum.description)"
+        cell.cellText.text = indexQuestion.caseTitle.decodeTitleSymbols()
         
         return cell
     }

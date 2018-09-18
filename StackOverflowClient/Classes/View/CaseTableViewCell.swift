@@ -10,10 +10,10 @@ import UIKit
 
 class CaseTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var caseAuthor: UILabel!
-    @IBOutlet weak var caseDate: UILabel!
-    @IBOutlet weak var caseNumAnswers: UILabel!
-    @IBOutlet weak var caseText: UILabel!
+    @IBOutlet weak var cellAuthor: UILabel!
+    @IBOutlet weak var cellDate: UILabel!
+    @IBOutlet weak var cellNumAnswers: UILabel!
+    @IBOutlet weak var cellText: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -21,7 +21,7 @@ import Foundation
 import Alamofire
 
 struct AnswerResponse: Codable {
-    let items: [AnswerItem]
+    let items: [AnswerItem]?
     let hasMore: Bool
     let page: Int
     let pageSize: Int
@@ -35,13 +35,13 @@ struct AnswerResponse: Codable {
 }
 
 struct AnswerItem: Codable {
-    let answers: [Answer]
+    let answers: [Answer]?
     let owner: AnswerOwner
     let score: Int
-    let lastActivityDate: Int
+    let lastActivityDate: Int?
     let questionID: Int
     let title: String
-    let body: String
+    let body: String?
     
     enum CodingKeys: String, CodingKey {
         case answers = "answers"
@@ -58,9 +58,9 @@ struct Answer: Codable {
     let owner: AnswerOwner
     let isAccepted: Bool
     let score: Int
-    let lastActivityDate: Int
-    let lastEditDate: Int?
-    let creationDate: Int
+    let lastActivityDate: Date
+    let lastEditDate: Date?
+    let creationDate: Date
     let answerID: Int
     let body: String
     
