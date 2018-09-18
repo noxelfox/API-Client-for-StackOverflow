@@ -19,6 +19,7 @@ class QuestionsViewController: UIViewController {
         
     var questions = [Case]()
     var page = 1
+    var questionID = 0
     var loadMoreIndicator: LoadMoreActivityIndicator!
     var currentTag: Tags = .swift
     var hasMore: Bool = false
@@ -152,8 +153,6 @@ class QuestionsViewController: UIViewController {
         callAPIforQuestions(callTag: currentTag, callPage: page)
     }
     
-
-    
     // MARK: - Refresh questions
     
     func loadRefreshControll(){
@@ -178,6 +177,14 @@ class QuestionsViewController: UIViewController {
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             print("shaked")
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "passID" {
+            if let destinationVC = segue.destination as? AnswersViewController {
+                destinationVC.questionID = questionID
+            }
         }
     }
 }
@@ -207,6 +214,11 @@ extension QuestionsViewController : UITableViewDelegate, UITableViewDataSource {
         cell.caseText.text = indexQuestion.caseTitle.decodeTitleSymbols()
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        questionID = questions[indexPath.row].caseId
+        self.performSegue(withIdentifier: "passID", sender: questionID)
     }
     
     

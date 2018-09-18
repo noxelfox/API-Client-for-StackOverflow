@@ -12,10 +12,10 @@ import Cache
 
 class AnswersViewController: UIViewController {
     
-    let questionID: Int = 0
     let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
     
     var answers = [Case]()
+    var questionID: Int = 0
     
     @IBOutlet var tableView: UITableView!
     
@@ -24,7 +24,7 @@ class AnswersViewController: UIViewController {
         
         self.title = questionID.description
         
-        showLoadingTableIndicator()
+//        showLoadingTableIndicator()
 //        callAPIforQuestions(callTag: currentTag, callPage: page)
         tableView.reloadData()
 //        loadRefreshControll()

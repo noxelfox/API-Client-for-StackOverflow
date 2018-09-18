@@ -82,7 +82,6 @@
                                             <outlet property="caseDate" destination="4Cp-5h-S6m" id="zaL-OP-r8D"/>
                                             <outlet property="caseNumAnswers" destination="MDS-Co-5UZ" id="c2q-cs-o52"/>
                                             <outlet property="caseText" destination="6I6-oO-twr" id="bpZ-mi-mIr"/>
-                                            <segue destination="Pre-L1-8Kl" kind="show" id="DzX-XY-KIX"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -124,6 +123,7 @@
                         <outlet property="pickerTop" destination="iOT-QX-CW9" id="nBJ-6p-RPA"/>
                         <outlet property="pickerView" destination="K2D-OH-zZ4" id="Qv5-YP-PHD"/>
                         <outlet property="tableView" destination="JCY-6D-fye" id="Ozt-ze-AVP"/>
+                        <segue destination="Pre-L1-8Kl" kind="show" identifier="passID" id="4qf-ZP-d7L"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
