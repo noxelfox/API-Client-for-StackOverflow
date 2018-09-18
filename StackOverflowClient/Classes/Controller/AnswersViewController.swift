@@ -12,21 +12,43 @@ import Cache
 
 class AnswersViewController: UIViewController {
     
+    let questionID: Int = 0
+    let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
+    
     var answers = [Case]()
     
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        self.title = questionID.description
+        
+        showLoadingTableIndicator()
+//        callAPIforQuestions(callTag: currentTag, callPage: page)
+        tableView.reloadData()
+//        loadRefreshControll()
+//        addLoadMore()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        answers.removeAll()
+        tableView.reloadData()
     }
     
+    func callAPIforAnswers(questionID: Int){
+        
+    }
+    
+    func parseAnswersResponse(actualResponse: AnswerResponse?){
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.hideLoadingTableIndicator()
+        }
+    }
 
     /*
     // MARK: - Navigation
@@ -39,6 +61,8 @@ class AnswersViewController: UIViewController {
     */
 
 }
+
+// MARK: - Table view Data Source
 
 extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -56,13 +80,31 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
         let indexAnswer = answers[indexPath.row]
         
         // Configure the cell...
-        cell.caseAuthor.text = decodeTitleSymbols(incodedTitle: indexAnswer.caseAuthor)
+        cell.caseAuthor.text = indexAnswer.caseAuthor.decodeTitleSymbols()
         cell.caseDate.text = indexAnswer.caseLastEdit.timeAgoDisplay()
         cell.caseNumAnswers.text = "|\(indexAnswer.caseNum.description)"
-        cell.caseQuestion.text = decodeTitleSymbols(incodedTitle: indexAnswer.caseTitle)
+        cell.caseText.text = indexAnswer.caseTitle.decodeTitleSymbols()
         
         return cell
     }
+}
+
+// MARK: - Loading Indecator
+
+extension AnswersViewController {
     
+    func showLoadingTableIndicator(){
+        loadTableIndicator.center = self.view.center;
+        loadTableIndicator.hidesWhenStopped = true;
+        loadTableIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        view.addSubview(loadTableIndicator);
+        
+        loadTableIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+    }
     
+    func hideLoadingTableIndicator(){
+        loadTableIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
+    }
 }

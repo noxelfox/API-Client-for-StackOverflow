@@ -13,7 +13,7 @@ class CaseTableViewCell: UITableViewCell {
     @IBOutlet weak var caseAuthor: UILabel!
     @IBOutlet weak var caseDate: UILabel!
     @IBOutlet weak var caseNumAnswers: UILabel!
-    @IBOutlet weak var caseQuestion: UILabel!
+    @IBOutlet weak var caseText: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

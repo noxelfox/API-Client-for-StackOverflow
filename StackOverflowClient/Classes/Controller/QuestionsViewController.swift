@@ -75,7 +75,7 @@ class QuestionsViewController: UIViewController {
         
         if hasCachedResponse == true {
             questions.removeAll()
-            parseResponse(actualResponse: try! self.requestManager.storage?.object(forKey: "cache \(callTag) \(callPage)"))
+            parseQuestionResponse(actualResponse: try! self.requestManager.storage?.object(forKey: "cache \(callTag) \(callPage)"))
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -104,7 +104,7 @@ class QuestionsViewController: UIViewController {
                 
                 // MARK: - Parsing response <ResponseStruct> into Question object
                 
-                self.parseResponse(actualResponse: actualResponse)
+                self.parseQuestionResponse(actualResponse: actualResponse)
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -117,7 +117,7 @@ class QuestionsViewController: UIViewController {
     
     // MARK: - Parsing response
     
-    func parseResponse(actualResponse: QuestionResponse?){
+    func parseQuestionResponse(actualResponse: QuestionResponse?){
         if let questionResponse = actualResponse {
             self.hasMore = questionResponse.hasMore
             guard let items = questionResponse.items else { return }
@@ -152,22 +152,7 @@ class QuestionsViewController: UIViewController {
         callAPIforQuestions(callTag: currentTag, callPage: page)
     }
     
-    // MARK: - Loading Indecator
-    
-    func showLoadingTableIndicator(){
-        loadTableIndicator.center = self.view.center;
-        loadTableIndicator.hidesWhenStopped = true;
-        loadTableIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
-        view.addSubview(loadTableIndicator);
-        
-        loadTableIndicator.startAnimating();
-        UIApplication.shared.beginIgnoringInteractionEvents();
-    }
-    
-    func hideLoadingTableIndicator(){
-        loadTableIndicator.stopAnimating();
-        UIApplication.shared.endIgnoringInteractionEvents();
-    }
+
     
     // MARK: - Refresh questions
     
@@ -216,10 +201,10 @@ extension QuestionsViewController : UITableViewDelegate, UITableViewDataSource {
         let indexQuestion = questions[indexPath.row]
         
         // Configure the cell...
-        cell.caseAuthor.text = decodeTitleSymbols(incodedTitle: indexQuestion.caseAuthor)
+        cell.caseAuthor.text = indexQuestion.caseAuthor.decodeTitleSymbols()
         cell.caseDate.text = indexQuestion.caseLastEdit.timeAgoDisplay()
         cell.caseNumAnswers.text = "|\(indexQuestion.caseNum.description)"
-        cell.caseQuestion.text = decodeTitleSymbols(incodedTitle: indexQuestion.caseTitle)
+        cell.caseText.text = indexQuestion.caseTitle.decodeTitleSymbols()
         
         return cell
     }
@@ -235,7 +220,7 @@ extension QuestionsViewController : UITableViewDelegate, UITableViewDataSource {
                     let hasCachedResponse = try? self.requestManager.storage?.existsObject(forKey: "cache \(self.currentTag) \(self.page)")
                     
                     if hasCachedResponse == true {
-                        self.parseResponse(actualResponse: try! self.requestManager.storage?.object(forKey: "cache \(self.currentTag) \(self.page)"))
+                        self.parseQuestionResponse(actualResponse: try! self.requestManager.storage?.object(forKey: "cache \(self.currentTag) \(self.page)"))
                         for i in 0..<3 {
                             print(i)
                             sleep(1)
@@ -258,16 +243,6 @@ extension QuestionsViewController : UITableViewDelegate, UITableViewDataSource {
                 }
             }
         }
-    }
-    
-    func decodeTitleSymbols(incodedTitle: String) -> String{
-        var decodedTitle = incodedTitle.replacingOccurrences(of: "&#39;", with: "'", options: .regularExpression, range: nil)
-        decodedTitle = decodedTitle.replacingOccurrences(of: "&quot;", with: "\"", options: .regularExpression, range: nil)
-        decodedTitle = decodedTitle.replacingOccurrences(of: "&#252;", with: "ü", options: .regularExpression, range: nil)
-        decodedTitle = decodedTitle.replacingOccurrences(of: "&#246;", with: "ö", options: .regularExpression, range: nil)
-        decodedTitle = decodedTitle.replacingOccurrences(of: "&gt;", with: ">", options: .regularExpression, range: nil)
-        decodedTitle = decodedTitle.replacingOccurrences(of: "&lt;", with: "<", options: .regularExpression, range: nil)
-        return decodedTitle
     }
 }
 
@@ -320,32 +295,22 @@ extension QuestionsViewController : UIPickerViewDelegate, UIPickerViewDataSource
     }
 }
 
+ // MARK: - Loading Indecator
 
-// MARK: - Time ago date format
-
-extension Date {
-    func timeAgoDisplay() -> String {
+extension QuestionsViewController {
+    
+    func showLoadingTableIndicator(){
+        loadTableIndicator.center = self.view.center;
+        loadTableIndicator.hidesWhenStopped = true;
+        loadTableIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        view.addSubview(loadTableIndicator);
         
-        let calendar = Calendar.current
-        let minuteAgo = calendar.date(byAdding: .minute, value: -1, to: Date())!
-        let hourAgo = calendar.date(byAdding: .hour, value: -1, to: Date())!
-        let dayAgo = calendar.date(byAdding: .day, value: -1, to: Date())!
-        let weekAgo = calendar.date(byAdding: .day, value: -7, to: Date())!
-        
-        if minuteAgo < self {
-            let diff = Calendar.current.dateComponents([.second], from: self, to: Date()).second ?? 0
-            return "\(diff) sec ago"
-        } else if hourAgo < self {
-            let diff = Calendar.current.dateComponents([.minute], from: self, to: Date()).minute ?? 0
-            return "\(diff) min ago"
-        } else if dayAgo < self {
-            let diff = Calendar.current.dateComponents([.hour], from: self, to: Date()).hour ?? 0
-            return "\(diff) hrs ago"
-        } else if weekAgo < self {
-            let diff = Calendar.current.dateComponents([.day], from: self, to: Date()).day ?? 0
-            return "\(diff) days ago"
-        }
-        let diff = Calendar.current.dateComponents([.weekOfYear], from: self, to: Date()).weekOfYear ?? 0
-        return "\(diff) weeks ago"
+        loadTableIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+    }
+    
+    func hideLoadingTableIndicator(){
+        loadTableIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
     }
 }

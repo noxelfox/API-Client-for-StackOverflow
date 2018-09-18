@@ -21,6 +21,8 @@
 		638ECA6C214FDACE004F474E /* AnswerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638ECA6B214FDACE004F474E /* AnswerResponse.swift */; };
 		63928B742142B35100A8028B /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63928B732142B35100A8028B /* Tags.swift */; };
 		63B73FE121465ECF0022312A /* LoadMoreActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B73FE021465ECF0022312A /* LoadMoreActivityIndicator.swift */; };
+		63E6A68821510A3D00526F39 /* ExtString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E6A68721510A3D00526F39 /* ExtString.swift */; };
+		63E6A68A21510A6200526F39 /* ExtDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E6A68921510A6200526F39 /* ExtDate.swift */; };
 		63EC0836213E9BC800F4AF43 /* QuestionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EC0835213E9BC800F4AF43 /* QuestionResponse.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +43,8 @@
 		638ECA6B214FDACE004F474E /* AnswerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerResponse.swift; sourceTree = "<group>"; };
 		63928B732142B35100A8028B /* Tags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
 		63B73FE021465ECF0022312A /* LoadMoreActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreActivityIndicator.swift; sourceTree = "<group>"; };
+		63E6A68721510A3D00526F39 /* ExtString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtString.swift; sourceTree = "<group>"; };
+		63E6A68921510A6200526F39 /* ExtDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtDate.swift; sourceTree = "<group>"; };
 		63EC0835213E9BC800F4AF43 /* QuestionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionResponse.swift; sourceTree = "<group>"; };
 		A007346BD604BE2271F490A8 /* Pods-StackOverflowClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StackOverflowClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StackOverflowClient/Pods-StackOverflowClient.debug.xcconfig"; sourceTree = "<group>"; };
 		DAA186DF002CB18AD89B775B /* Pods_StackOverflowClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StackOverflowClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +67,7 @@
 			children = (
 				633F9E70213D200900479748 /* Constants */,
 				633F9E71213D202E00479748 /* Helpers */,
+				63E6A686215109BE00526F39 /* Extensions */,
 			);
 			path = _common;
 			sourceTree = "<group>";
@@ -184,6 +189,15 @@
 				634A26DF212FF53E008479DC /* Info.plist */,
 			);
 			path = Plists;
+			sourceTree = "<group>";
+		};
+		63E6A686215109BE00526F39 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				63E6A68721510A3D00526F39 /* ExtString.swift */,
+				63E6A68921510A6200526F39 /* ExtDate.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		AA3BDE9C441231678654595C /* Frameworks */ = {
@@ -322,11 +336,13 @@
 				633F9E77213D696B00479748 /* Case.swift in Sources */,
 				633F9E6A213D1AA800479748 /* CaseTableViewCell.swift in Sources */,
 				638ECA66214FBB2B004F474E /* AnswersViewController.swift in Sources */,
+				63E6A68A21510A6200526F39 /* ExtDate.swift in Sources */,
 				634A26D4212FF53D008479DC /* AppDelegate.swift in Sources */,
 				63928B742142B35100A8028B /* Tags.swift in Sources */,
 				633F9E73213D501800479748 /* RequestPaths.swift in Sources */,
 				638ECA6C214FDACE004F474E /* AnswerResponse.swift in Sources */,
 				633F9E68213D164900479748 /* QuestionsViewController.swift in Sources */,
+				63E6A68821510A3D00526F39 /* ExtString.swift in Sources */,
 				63EC0836213E9BC800F4AF43 /* QuestionResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
