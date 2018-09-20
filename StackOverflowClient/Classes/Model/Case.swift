@@ -16,4 +16,5 @@ struct Case {
     let caseNum: Int
     let caseId: Int
     let isAccepted: Bool?
+    var isZero: Bool?
 }

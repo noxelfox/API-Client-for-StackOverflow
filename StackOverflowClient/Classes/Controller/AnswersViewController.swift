@@ -18,6 +18,7 @@ class AnswersViewController: UIViewController {
     
     var answers = [Case]()
     var questionID: Int = 0
+    var questionDate: Date = Date.distantPast
     
     @IBOutlet var tableView: UITableView!
     
@@ -76,13 +77,15 @@ class AnswersViewController: UIViewController {
                 print(item.title)
                 print(item.score)
                 print(item.body!)
+                let question = Case(caseAuthor: item.owner.displayName as String, caseLastEdit: questionDate as Date, caseTitle: item.title + "\n\n" + item.body!, caseNum: item.score, caseId: item.questionID as Int, isAccepted: nil, isZero: true)
+                self.answers.append(question)
                 for answerItem in answerItems {
                     if answerItem.lastEditDate == nil {
                         let nullDate = answerItem.lastActivityDate
-                        let answer = Case(caseAuthor: answerItem.owner.displayName as String, caseLastEdit: nullDate, caseTitle: answerItem.body as String, caseNum: answerItem.score as Int, caseId: answerItem.answerID, isAccepted: answerItem.isAccepted)
+                        let answer = Case(caseAuthor: answerItem.owner.displayName as String, caseLastEdit: nullDate, caseTitle: answerItem.body as String, caseNum: answerItem.score as Int, caseId: answerItem.answerID, isAccepted: answerItem.isAccepted, isZero: false)
                         self.answers.append(answer)
                     } else {
-                        let answer = Case(caseAuthor: answerItem.owner.displayName as String, caseLastEdit: answerItem.lastActivityDate, caseTitle: answerItem.body as String, caseNum: answerItem.score as Int, caseId: answerItem.answerID, isAccepted: answerItem.isAccepted)
+                        let answer = Case(caseAuthor: answerItem.owner.displayName as String, caseLastEdit: answerItem.lastActivityDate, caseTitle: answerItem.body as String, caseNum: answerItem.score as Int, caseId: answerItem.answerID, isAccepted: answerItem.isAccepted, isZero: false)
                         self.answers.append(answer)
                     }
                 }
@@ -123,6 +126,22 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AnswerCell", for: indexPath) as! CaseTableViewCell
         let indexAnswer = answers[indexPath.row]
         // Configure the cell...
+        if indexAnswer.isZero == true {
+            cell.backgroundColor = UIColor.darkGray.withAlphaComponent(0.75)
+            cell.cellAuthor.textColor = .cyan
+            cell.cellDate.textColor = UIColor.lightText
+            cell.cellNumAnswers.textColor = .cyan
+            cell.cellText.textColor = .white
+        } else {
+            cell.backgroundColor = UIColor.clear
+            cell.cellAuthor.textColor = UIColor(red: 0.105, green: 0.34, blue: 0.56, alpha: 0.95)
+            cell.cellDate.textColor = UIColor.darkGray
+            cell.cellNumAnswers.textColor = UIColor(red: 0.105, green: 0.34, blue: 0.56, alpha: 0.95)
+            cell.cellText.textColor = UIColor.darkText
+        }
+        
+        
+        
         cell.cellAuthor.text = indexAnswer.caseAuthor.decodeTitleSymbols()
         cell.cellDate.text = indexAnswer.caseLastEdit.timeAgoDisplay()
         cell.cellNumAnswers.text = "±\(indexAnswer.caseNum.description)"
@@ -130,6 +149,18 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+    
+    
+//    func colorForIndex(index: Int) -> UIColor {
+//        let itemCount = answers.count - 1
+//        let color = (CGFloat(index) / CGFloat(itemCount)) * 0.6
+//        return UIColor(red: 1.0, green: color, blue: 0.0, alpha: 1.0)
+//    }
+//    
+//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell,
+//                            forRowAtIndexPath indexPath: NSIndexPath) {
+//        cell.backgroundColor = colorForIndex(index: indexPath.row)
+//    }
 }
 
 // MARK: - Loading Indecator

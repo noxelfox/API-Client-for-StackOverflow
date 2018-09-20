@@ -20,6 +20,7 @@ class QuestionsViewController: UIViewController {
     var questions = [Case]()
     var page = 1
     var questionID = 0
+    var questionDate: Date = Date.distantPast
     var loadMoreIndicator: LoadMoreActivityIndicator!
     var currentTag: Tags = .swift
     var hasMore: Bool = false
@@ -125,10 +126,10 @@ class QuestionsViewController: UIViewController {
             for item in items {
                 if item.lastEditDate == nil {
                     let nullDate = item.lastActivityDate
-                    let question = Case(caseAuthor: item.owner.displayName as String, caseLastEdit: nullDate , caseTitle: item.title as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil)
+                    let question = Case(caseAuthor: item.owner.displayName as String, caseLastEdit: nullDate , caseTitle: item.title as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil, isZero: nil)
                     self.questions.append(question)
                 } else {
-                    let question = Case(caseAuthor: item.owner.displayName as String, caseLastEdit: item.lastActivityDate as Date, caseTitle: item.title as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil)
+                    let question = Case(caseAuthor: item.owner.displayName as String, caseLastEdit: item.lastActivityDate as Date, caseTitle: item.title as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil, isZero: nil)
                     self.questions.append(question)
                 }
             }
@@ -184,6 +185,7 @@ class QuestionsViewController: UIViewController {
         if segue.identifier == "passID" {
             if let destinationVC = segue.destination as? AnswersViewController {
                 destinationVC.questionID = questionID
+                destinationVC.questionDate = questionDate
             }
         }
     }
@@ -218,6 +220,7 @@ extension QuestionsViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         questionID = questions[indexPath.row].caseId
+        questionDate = questions[indexPath.row].caseLastEdit
         self.performSegue(withIdentifier: "passID", sender: questionID)
     }
     

@@ -38,7 +38,7 @@ struct AnswerItem: Codable {
     let answers: [Answer]?
     let owner: AnswerOwner
     let score: Int
-    let lastActivityDate: Int?
+    let lastActivityDate: Date?
     let questionID: Int
     let title: String
     let body: String?
