@@ -124,7 +124,9 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AnswerCell", for: indexPath) as! CaseTableViewCell
         let indexAnswer = answers[indexPath.row]
-        // Configure the cell...
+        
+        // MARK: - Check for question
+        
         if indexAnswer.isZero == true {
             cell.backgroundColor = UIColor.darkGray.withAlphaComponent(0.75)
             cell.cellAuthor.textColor = .cyan
@@ -137,6 +139,13 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
             cell.cellDate.textColor = UIColor.darkGray
             cell.cellNumAnswers.textColor = UIColor(red: 0.105, green: 0.34, blue: 0.56, alpha: 0.95)
             cell.cellText.textColor = UIColor.darkText
+        }
+        
+        // MARK: - Check for marked answer
+        
+        if indexAnswer.isAccepted == true {
+            cell.backgroundColor = UIColor.green.withAlphaComponent(0.05)
+            cell.accessoryType = .checkmark
         }
         
         
