@@ -15,6 +15,7 @@ class AnswersViewController: UIViewController {
     let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
     let requestManager = RequestManager()
     let dateFormatter = DateFormatter()
+    private let refreshControl = UIRefreshControl()
     
     var answers = [Case]()
     var questionID: Int = 0
@@ -27,11 +28,10 @@ class AnswersViewController: UIViewController {
         
         self.title = questionID.description
         
-//        showLoadingTableIndicator()
+        showLoadingTableIndicator()
         callAPIforAnswers(questionID: questionID)
         tableView.reloadData()
-//        loadRefreshControll()
-//        addLoadMore()
+        loadRefreshControll()
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,15 +70,14 @@ class AnswersViewController: UIViewController {
     func parseAnswersResponse(actualResponse: AnswerResponse?){
         
         if let answerResponse = actualResponse {
+            
             guard let items = answerResponse.items else { return }
             for item in items {
+                
                 guard let answerItems = item.answers else { return }
-                print(item.owner)
-                print(item.title)
-                print(item.score)
-                print(item.body!)
                 let question = Case(caseAuthor: item.owner.displayName as String, caseLastEdit: questionDate as Date, caseTitle: item.title + "\n\n" + item.body!, caseNum: item.score, caseId: item.questionID as Int, isAccepted: nil, isZero: true)
                 self.answers.append(question)
+                
                 for answerItem in answerItems {
                     if answerItem.lastEditDate == nil {
                         let nullDate = answerItem.lastActivityDate
@@ -150,6 +149,23 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    // MARK: - Refresh answers
+    
+    func loadRefreshControll(){
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing data...")
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+        refreshControl.addTarget(self, action: #selector(refreshAnswersData(_:)), for: .valueChanged)
+    }
+    
+    @objc private func refreshAnswersData(_ sender: Any) {
+        callAPIforAnswers(questionID: questionID)
+        self.tableView.reloadData()
+        self.refreshControl.endRefreshing()
+    }
     
 //    func colorForIndex(index: Int) -> UIColor {
 //        let itemCount = answers.count - 1
