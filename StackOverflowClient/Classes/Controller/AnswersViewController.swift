@@ -27,6 +27,7 @@ class AnswersViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = questionID.description
+        self.navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor: UIColor.lightGray]
         
         showLoadingTableIndicator()
         callAPIforAnswers(questionID: questionID)
@@ -139,6 +140,7 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
             cell.cellDate.textColor = UIColor.darkGray
             cell.cellNumAnswers.textColor = UIColor(red: 0.105, green: 0.34, blue: 0.56, alpha: 0.95)
             cell.cellText.textColor = UIColor.darkText
+            cell.accessoryType = .none
         }
         
         // MARK: - Check for marked answer
@@ -147,8 +149,6 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
             cell.backgroundColor = UIColor.green.withAlphaComponent(0.05)
             cell.accessoryType = .checkmark
         }
-        
-        
         
         cell.cellAuthor.text = indexAnswer.caseAuthor.decodeTitleSymbols()
         cell.cellDate.text = indexAnswer.caseLastEdit.timeAgoDisplay()
