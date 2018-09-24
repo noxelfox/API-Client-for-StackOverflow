@@ -27,7 +27,6 @@ class AnswersViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = questionID.description
-        self.navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor: UIColor.lightGray]
         
         showLoadingTableIndicator()
         callAPIforAnswers(questionID: questionID)
@@ -85,7 +84,7 @@ class AnswersViewController: UIViewController {
                         let answer = Case(caseAuthor: answerItem.owner.displayName as String, caseLastEdit: nullDate, caseTitle: answerItem.body as String, caseNum: answerItem.score as Int, caseId: answerItem.answerID, isAccepted: answerItem.isAccepted, isZero: false)
                         self.answers.append(answer)
                     } else {
-                        let answer = Case(caseAuthor: answerItem.owner.displayName as String, caseLastEdit: answerItem.lastActivityDate, caseTitle: answerItem.body as String, caseNum: answerItem.score as Int, caseId: answerItem.answerID, isAccepted: answerItem.isAccepted, isZero: false)
+                        let answer = Case(caseAuthor: answerItem.owner.displayName as String, caseLastEdit: answerItem.lastEditDate!, caseTitle: answerItem.body as String, caseNum: answerItem.score as Int, caseId: answerItem.answerID, isAccepted: answerItem.isAccepted, isZero: false)
                         self.answers.append(answer)
                     }
                 }
@@ -126,7 +125,7 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AnswerCell", for: indexPath) as! CaseTableViewCell
         let indexAnswer = answers[indexPath.row]
         
-        // MARK: - Check for question
+        // MARK: - Checking for question and setting other row's style
         
         if indexAnswer.isZero == true {
             cell.backgroundColor = UIColor.darkGray.withAlphaComponent(0.75)
@@ -143,7 +142,7 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
             cell.accessoryType = .none
         }
         
-        // MARK: - Check for marked answer
+        // MARK: - Checking for marked answer
         
         if indexAnswer.isAccepted == true {
             cell.backgroundColor = UIColor.green.withAlphaComponent(0.05)
@@ -154,6 +153,7 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
         cell.cellDate.text = indexAnswer.caseLastEdit.timeAgoDisplay()
         cell.cellNumAnswers.text = "±\(indexAnswer.caseNum.description)"
         cell.cellText.text = indexAnswer.caseTitle.decodeTitleSymbols()
+//        cell.cellText.text = indexAnswer.caseTitle.htmlToString
         
         return cell
     }
