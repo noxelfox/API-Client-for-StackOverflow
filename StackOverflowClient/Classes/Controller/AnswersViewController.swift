@@ -142,7 +142,6 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
         cell.cellDate.text = indexAnswer.caseLastEdit.timeAgoDisplay()
         cell.cellNumAnswers.text = "±\(indexAnswer.caseNum.description)"
         cell.cellText.attributedText = answerText.colorCode()
-//        cell.cellText.text = answerText
         
         return cell
     }
