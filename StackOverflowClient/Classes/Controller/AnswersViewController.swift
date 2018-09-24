@@ -148,12 +148,13 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
             cell.backgroundColor = UIColor.green.withAlphaComponent(0.05)
             cell.accessoryType = .checkmark
         }
+        let answerText = indexAnswer.caseTitle.decodeTitleSymbols()
         
         cell.cellAuthor.text = indexAnswer.caseAuthor.decodeTitleSymbols()
         cell.cellDate.text = indexAnswer.caseLastEdit.timeAgoDisplay()
         cell.cellNumAnswers.text = "±\(indexAnswer.caseNum.description)"
-        cell.cellText.text = indexAnswer.caseTitle.decodeTitleSymbols()
-//        cell.cellText.text = indexAnswer.caseTitle.htmlToString
+        cell.cellText.attributedText = answerText.colorCode()
+//        cell.cellText.text = answerText
         
         return cell
     }
