@@ -52,7 +52,7 @@ extension String {
         decodedTitle = decodedTitle.replacingOccurrences(of: "</li>", with: "", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: """
         <a href="
-        """, with: "", options: .regularExpression, range: nil)
+        """, with: "\n", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "</a>", with: "", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: """
         ">

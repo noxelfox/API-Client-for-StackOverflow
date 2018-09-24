@@ -36,7 +36,6 @@ class AnswersViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
         answers.removeAll()
         tableView.reloadData()
     }
@@ -95,17 +94,6 @@ class AnswersViewController: UIViewController {
             self.hideLoadingTableIndicator()
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 // MARK: - Table view Data Source
@@ -176,17 +164,6 @@ extension AnswersViewController: UITableViewDelegate, UITableViewDataSource {
         self.tableView.reloadData()
         self.refreshControl.endRefreshing()
     }
-    
-//    func colorForIndex(index: Int) -> UIColor {
-//        let itemCount = answers.count - 1
-//        let color = (CGFloat(index) / CGFloat(itemCount)) * 0.6
-//        return UIColor(red: 1.0, green: color, blue: 0.0, alpha: 1.0)
-//    }
-//    
-//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell,
-//                            forRowAtIndexPath indexPath: NSIndexPath) {
-//        cell.backgroundColor = colorForIndex(index: indexPath.row)
-//    }
 }
 
 // MARK: - Loading Indecator
