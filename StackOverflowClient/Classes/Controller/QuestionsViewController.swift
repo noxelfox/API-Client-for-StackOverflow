@@ -16,7 +16,9 @@ class QuestionsViewController: UIViewController {
     let dateFormatter = DateFormatter()
     let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
     private let refreshControl = UIRefreshControl()
-        
+    
+    var tagsViewController: TagsViewController!
+    
     var questions = [Case]()
     var page = 1
     var questionID = 0
