@@ -112,6 +112,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="bai-PZ-3n1">
+                        <barButtonItem key="leftBarButtonItem" title="Tags" id="5c6-sg-F4S">
+                            <connections>
+                                <action selector="tagsButtonTaped:" destination="BYZ-38-t0r" id="cgi-JP-EWu"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="4bX-hu-jZ3">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -133,7 +138,7 @@
         <!--Tags View Controller-->
         <scene sceneID="hUj-Ft-FeZ">
             <objects>
-                <viewController id="jyU-0D-rXS" customClass="TagsViewController" customModule="StackOverflowClient" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TagsViewController" id="jyU-0D-rXS" customClass="TagsViewController" customModule="StackOverflowClient" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XZS-jS-zxe">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
@@ -219,9 +224,9 @@
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="umy-kV-sQq" firstAttribute="width" secondItem="XZS-jS-zxe" secondAttribute="width" multiplier="0.5" id="Ecd-ja-ri3"/>
                             <constraint firstItem="umy-kV-sQq" firstAttribute="leading" secondItem="XZS-jS-zxe" secondAttribute="leading" id="c84-D5-hdm"/>
                             <constraint firstItem="umy-kV-sQq" firstAttribute="top" secondItem="b5q-ue-rR6" secondAttribute="top" id="dbu-c9-82x"/>
+                            <constraint firstItem="umy-kV-sQq" firstAttribute="width" secondItem="XZS-jS-zxe" secondAttribute="width" multiplier="0.5" id="jw5-VA-uMs"/>
                             <constraint firstItem="umy-kV-sQq" firstAttribute="height" secondItem="b5q-ue-rR6" secondAttribute="height" id="lKF-v6-iK9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="b5q-ue-rR6"/>
