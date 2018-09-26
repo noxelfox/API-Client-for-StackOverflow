@@ -55,7 +55,6 @@ class AnswersViewController: UIViewController {
             }
             
             // MARK: - Parsing response <QuestionResponse> into Case object
-            
             self.parseAnswersResponse(actualResponse: actualResponse)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
