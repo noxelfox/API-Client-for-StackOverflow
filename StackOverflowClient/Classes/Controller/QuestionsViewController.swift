@@ -36,7 +36,7 @@ class QuestionsViewController: UIViewController {
     @IBOutlet weak var containerViewConstraint: NSLayoutConstraint!
     
     
-    @IBAction func tagsButtonTaped(_ sender: UIBarButtonItem) {
+    @IBAction func tagsButtonTaped(_ sender: Any) {
         if tagsBarHidden == true {
             showTagsBar()
         } else {
@@ -195,6 +195,7 @@ class QuestionsViewController: UIViewController {
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             print("shaked")
+            buttonTapped(self)
         }
     }
     
@@ -356,11 +357,11 @@ extension QuestionsViewController {
     
     func hideTagsBar(){
         containerViewConstraint.constant = 0 - tagsView.frame.width
-        UIView.animate(withDuration: 0.5,
+        UIView.animate(withDuration: 1.0,
                        delay: 0,
-                       usingSpringWithDamping: 0.8,
-                       initialSpringVelocity: 0,
-                       options: .curveEaseInOut, animations: {
+                       usingSpringWithDamping: 0.4,
+                       initialSpringVelocity: 0.2,
+                       options: .curveEaseIn, animations: {
                         self.view.layoutIfNeeded()
         }) { (true) in
             self.tagsBarHidden = true
