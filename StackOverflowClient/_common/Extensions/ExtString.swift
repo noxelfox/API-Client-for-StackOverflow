@@ -46,8 +46,12 @@ extension String {
         decodedTitle = decodedTitle.replacingOccurrences(of: "</pre>", with: "", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "<ul>", with: "", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "</ul>", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "<ol>", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "</ol>", with: "", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "<li>", with: "", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "</li>", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "<kbd>", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "</kbd>", with: "", options: .regularExpression, range: nil)
         
         decodedTitle = decodedTitle.replacingOccurrences(of: "<hr>", with: "--------------", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "</hr>", with: "--------------", options: .regularExpression, range: nil)

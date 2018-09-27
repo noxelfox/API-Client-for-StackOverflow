@@ -17,30 +17,31 @@ class QuestionsViewController: UIViewController {
     let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
     private let refreshControl = UIRefreshControl()
     
-    var tagsViewController: TagsViewController!
+    var tagsViewController: TagsViewController?
     var loadMoreIndicator: LoadMoreActivityIndicator!
     
     var questions = [Case]()
     var page = 1
     var questionID = 0
-    var centerPanelExpandedOffset: CGFloat = 0
+    var viewHalfWidth: CGFloat = 0
     var questionDate: Date = Date.distantPast
     var currentTag: Tags = .swift
     var hasMore: Bool = false
-    var currentState: SlideOutState = .tagsBarCollapsed
+    var tagsBarHidden = true
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var tagsView: UIView!
     @IBOutlet weak var pickerTop: NSLayoutConstraint!
+    @IBOutlet weak var containerViewConstraint: NSLayoutConstraint!
+    
     
     @IBAction func tagsButtonTaped(_ sender: UIBarButtonItem) {
-        toggleTagsBar()
-    }
-    
-    
-    enum SlideOutState {
-        case tagsBarCollapsed
-        case tagsBarExpanded
+        if tagsBarHidden == true {
+            showTagsBar()
+        } else {
+            hideTagsBar()
+        }
     }
     
     override func viewDidLoad() {
@@ -55,7 +56,8 @@ class QuestionsViewController: UIViewController {
         tableView.reloadData()
         loadRefreshControll()
         addLoadMore()
-        centerPanelExpandedOffset = self.view.frame.width / 2
+        
+        containerViewConstraint.constant = -tagsView.frame.width
     }
 
     override func didReceiveMemoryWarning() {
@@ -203,6 +205,9 @@ class QuestionsViewController: UIViewController {
                 destinationVC.questionDate = questionDate
             }
         }
+        if let tagsVC = segue.destination as? TagsViewController {
+            tagsVC.delegate = self
+        }
     }
 }
 
@@ -349,72 +354,40 @@ extension QuestionsViewController {
 
 extension QuestionsViewController {
     
-    func toggleTagsBar() {
-        let notAlreadyExpanded = (currentState != .tagsBarExpanded)
-        if notAlreadyExpanded {
-            addLeftPanelViewController()
-        }
-        animateTagsBar(shouldExpand: notAlreadyExpanded)
-    }
-    
-    func collapseSidePanels() {
-        switch currentState {
-        case .tagsBarExpanded:
-            toggleTagsBar()
-        default:
-            break
-        }
-    }
-    
-    func addLeftPanelViewController() {
-        guard tagsViewController == nil else { return }
-        if let vc = UIStoryboard.tagsViewController() {
-            addChildSidePanelController(vc)
-            tagsViewController = vc
-        }
-    }
-    
-    func addChildSidePanelController(_ tagsController: TagsViewController) {
-        view.insertSubview(tagsController.view, at: 0)
-
-        addChildViewController(tagsController)
-        tagsController.didMove(toParentViewController: self)
-    }
-    
-    func animateCenterPanelXPosition(targetPosition: CGFloat, completion: ((Bool) -> Void)? = nil) {
-        
+    func hideTagsBar(){
+        containerViewConstraint.constant = 0 - tagsView.frame.width
         UIView.animate(withDuration: 0.5,
                        delay: 0,
                        usingSpringWithDamping: 0.8,
                        initialSpringVelocity: 0,
                        options: .curveEaseInOut, animations: {
-                        self.navigationController!.view.frame.origin.x = targetPosition
-        }, completion: completion)
+                        self.view.layoutIfNeeded()
+        }) { (true) in
+            self.tagsBarHidden = true
+        }
     }
     
-    func animateTagsBar(shouldExpand: Bool) {
-        if shouldExpand {
-            currentState = .tagsBarExpanded
-            animateCenterPanelXPosition(
-                targetPosition: self.navigationController!.view.frame.width - centerPanelExpandedOffset)
-            
-        } else {
-            animateCenterPanelXPosition(targetPosition: 0) { finished in
-                self.currentState = .tagsBarCollapsed
-                self.tagsViewController?.view.removeFromSuperview()
-                self.tagsViewController = nil
-            }
+    func showTagsBar(){
+        containerViewConstraint.constant = 0-(tagsView.frame.width * 0.05)
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 5,
+                       options: .curveEaseInOut, animations: {
+            self.view.layoutIfNeeded()
+        }) { (true) in
+            self.tagsBarHidden = false
         }
     }
 }
 
-// MARK: - Storyboard extension
+extension QuestionsViewController: TagsViewControllerDelegate {
 
-private extension UIStoryboard {
-    
-    static func mainStoryboard() -> UIStoryboard { return UIStoryboard(name: "Main", bundle: Bundle.main) }
-    
-    static func tagsViewController() -> TagsViewController? {
-        return mainStoryboard().instantiateViewController(withIdentifier: "TagsViewController") as? TagsViewController
+    func didSelectTag(_ tag: Tags) {
+        changeTag(newTag: tag)
+        hideTagsBar()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
