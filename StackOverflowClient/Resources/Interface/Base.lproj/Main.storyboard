@@ -109,6 +109,7 @@
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Ptw-rT-uKd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6Gt-1I-2G8"/>
                             <constraint firstItem="JCY-6D-fye" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="7fC-eL-rfG"/>

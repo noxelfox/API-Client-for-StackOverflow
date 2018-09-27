@@ -58,6 +58,11 @@ class QuestionsViewController: UIViewController {
         addLoadMore()
         
         containerViewConstraint.constant = -tagsView.frame.width
+        
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
+        edgePan.edges = .left
+        
+        view.addGestureRecognizer(edgePan)
     }
 
     override func didReceiveMemoryWarning() {
@@ -190,6 +195,12 @@ class QuestionsViewController: UIViewController {
         self.refreshControl.endRefreshing()
     }
     
+    @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+        if recognizer.state == .recognized {
+            showTagsBar()
+        }
+    }
+    
     // MARK: - Shake gesture
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
@@ -198,6 +209,8 @@ class QuestionsViewController: UIViewController {
             buttonTapped(self)
         }
     }
+    
+    // MARK: - Segue
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "passID" {
