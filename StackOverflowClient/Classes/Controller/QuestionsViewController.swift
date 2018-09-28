@@ -25,7 +25,6 @@ class QuestionsViewController: UIViewController {
     var questions = [Case]()
     var page = 1
     var questionID = 0
-    var viewHalfWidth: CGFloat = 0
     var questionDate: Date = Date.distantPast
     var currentTag: Tags = .swift
     var hasMore: Bool = false
