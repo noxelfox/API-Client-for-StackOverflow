@@ -15,6 +15,7 @@ class AnswersViewController: UIViewController {
     let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
     let requestManager = RequestManager()
     let dateFormatter = DateFormatter()
+    let networkChecker = NetworkChecker()
     private let refreshControl = UIRefreshControl()
     
     var answers = [Case]()
@@ -28,8 +29,10 @@ class AnswersViewController: UIViewController {
         
         self.title = questionID.description
         
-        showLoadingTableIndicator()
-        callAPIforAnswers(questionID: questionID)
+        if networkChecker.checkConnection(caller: self) == true {
+            showLoadingTableIndicator()
+            callAPIforAnswers(questionID: questionID)
+        }
         tableView.reloadData()
         loadRefreshControll()
     }

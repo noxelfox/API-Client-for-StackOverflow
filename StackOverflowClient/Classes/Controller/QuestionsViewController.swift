@@ -17,6 +17,7 @@ class QuestionsViewController: UIViewController {
     let requestManager = RequestManager()
     let dateFormatter = DateFormatter()
     let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
+    let networkChecker = NetworkChecker()
     private let refreshControl = UIRefreshControl()
     
     var tagsViewController: TagsViewController?
@@ -52,8 +53,10 @@ class QuestionsViewController: UIViewController {
         pickerView.dataSource = self
         pickerView.isHidden = true
         
-        showLoadingTableIndicator()
-        callAPIforQuestions(callTag: currentTag, callPage: page)
+        if networkChecker.checkConnection(caller: self) == true {
+            showLoadingTableIndicator()
+            callAPIforQuestions(callTag: currentTag, callPage: page)
+        }
         tableView.reloadData()
         loadRefreshControll()
         addLoadMore()
@@ -123,9 +126,11 @@ class QuestionsViewController: UIViewController {
                 
                 // MARK: - Caching...
                 
-                do {
-                    try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)", expiry: .date(Date().addingTimeInterval(1 * 300)))
-                } catch { print(error) }
+                if self.networkChecker.checkConnection(caller: self) == true {
+                    do {
+                        try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)", expiry: .date(Date().addingTimeInterval(1 * 300)))
+                    } catch { print(error) }
+                }
                 
                 // MARK: - Parsing response <QuestionResponse> into Case object
                 
