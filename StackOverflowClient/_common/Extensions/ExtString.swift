@@ -37,6 +37,8 @@ extension String {
         decodedTitle = decodedTitle.replacingOccurrences(of: "&#225;", with: "á", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "&#233;", with: "é", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "&#250;", with: "ú", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "&#220;", with: "Ü", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "&#231;", with: "ç", options: .regularExpression, range: nil)
         
         decodedTitle = decodedTitle.replacingOccurrences(of: "<p>", with: "", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "</p>", with: "", options: .regularExpression, range: nil)
