@@ -131,7 +131,7 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="bai-PZ-3n1">
-                        <barButtonItem key="leftBarButtonItem" title="Tags" image="menu" landscapeImage="menu" largeContentSizeImage="menu" id="5c6-sg-F4S">
+                        <barButtonItem key="leftBarButtonItem" image="menu" landscapeImage="menu" largeContentSizeImage="menu" id="5c6-sg-F4S">
                             <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="tagsButtonTaped:" destination="BYZ-38-t0r" id="cgi-JP-EWu"/>
