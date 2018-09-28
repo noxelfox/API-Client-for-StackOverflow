@@ -55,6 +55,9 @@ extension String {
         decodedTitle = decodedTitle.replacingOccurrences(of: "</li>", with: "", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "<kbd>", with: "", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "</kbd>", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "<em>", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "</em>", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "<br>", with: "", options: .regularExpression, range: nil)
         
         decodedTitle = decodedTitle.replacingOccurrences(of: "<hr>", with: "--------------", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "</hr>", with: "--------------", options: .regularExpression, range: nil)
