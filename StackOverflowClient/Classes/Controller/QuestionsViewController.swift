@@ -9,6 +9,8 @@
 import UIKit
 import Alamofire
 import Cache
+import AVFoundation
+import AudioToolbox
 
 class QuestionsViewController: UIViewController {
     
@@ -207,6 +209,7 @@ class QuestionsViewController: UIViewController {
         if motion == .motionShake {
             print("shaked")
             buttonTapped(self)
+            AudioServicesPlaySystemSound(SystemSoundID(1101))
         }
     }
     
