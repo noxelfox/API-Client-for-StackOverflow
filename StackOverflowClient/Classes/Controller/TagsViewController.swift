@@ -15,7 +15,7 @@ class TagsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.layer.shadowOpacity = 1.4
+        self.view.layer.shadowOpacity = 0.9
         // Do any additional setup after loading the view.
     }
     

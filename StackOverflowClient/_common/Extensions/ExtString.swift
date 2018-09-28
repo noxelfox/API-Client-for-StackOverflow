@@ -58,6 +58,13 @@ extension String {
         decodedTitle = decodedTitle.replacingOccurrences(of: "<em>", with: "", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "</em>", with: "", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "<br>", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "<br />", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "<h1>", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "</h1>", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "<h2>", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "</h2>", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "<h3>", with: "", options: .regularExpression, range: nil)
+        decodedTitle = decodedTitle.replacingOccurrences(of: "</h3>", with: "", options: .regularExpression, range: nil)
         
         decodedTitle = decodedTitle.replacingOccurrences(of: "<hr>", with: "--------------", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "</hr>", with: "--------------", options: .regularExpression, range: nil)
@@ -72,8 +79,8 @@ extension String {
         decodedTitle = decodedTitle.replacingOccurrences(of: "<blockquote>", with: "'''", options: .regularExpression, range: nil)
         decodedTitle = decodedTitle.replacingOccurrences(of: "</blockquote>", with: "'''", options: .regularExpression, range: nil)
         
-        decodedTitle = decodedTitle.replacingOccurrences(of: "<code>", with: "\n<code>\n", options: .regularExpression, range: nil)
-        decodedTitle = decodedTitle.replacingOccurrences(of: "</code>", with: "\n</code>\n", options: .regularExpression, range: nil)
+//        decodedTitle = decodedTitle.replacingOccurrences(of: "<code>", with: "\n<code>\n", options: .regularExpression, range: nil)
+//        decodedTitle = decodedTitle.replacingOccurrences(of: "</code>", with: "\n</code>\n", options: .regularExpression, range: nil)
         
         return decodedTitle
     }
