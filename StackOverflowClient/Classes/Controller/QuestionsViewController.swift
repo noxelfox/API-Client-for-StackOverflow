@@ -210,6 +210,7 @@ class QuestionsViewController: UIViewController {
             print("shaked")
             buttonTapped(self)
             AudioServicesPlaySystemSound(SystemSoundID(1101))
+            AudioServicesPlaySystemSound(SystemSoundID(1100))
         }
     }
     
