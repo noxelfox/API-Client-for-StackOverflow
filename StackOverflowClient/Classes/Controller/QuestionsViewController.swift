@@ -432,6 +432,7 @@ extension QuestionsViewController: TagsViewControllerDelegate {
         hideTagsBar()
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            self.checkInteraction()        }
+            self.checkInteraction()
+        }
     }
 }
