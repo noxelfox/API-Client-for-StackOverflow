@@ -48,6 +48,7 @@ class QuestionsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableFooterView = UIView()
 
         pickerView.delegate = self
         pickerView.dataSource = self
@@ -67,6 +68,7 @@ class QuestionsViewController: UIViewController {
         edgePan.edges = .left
         
         view.addGestureRecognizer(edgePan)
+        hideBarWhenTap()
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,6 +81,24 @@ class QuestionsViewController: UIViewController {
     
     override func becomeFirstResponder() -> Bool {
         return true
+    }
+    
+    func hideBarWhenTap(){
+        tableView.isUserInteractionEnabled = true
+        let tap: UIGestureRecognizer = UIPanGestureRecognizer(
+            target: self,
+            action: #selector(self.tagsButtonTaped(_:)))
+        
+        tap.cancelsTouchesInView = false
+        tagsView.addGestureRecognizer(tap)
+    }
+    
+    func checkInteraction(){
+        if tagsBarHidden == true {
+            self.tableView.isUserInteractionEnabled = true
+        } else {
+            self.tableView.isUserInteractionEnabled = false
+        }
     }
     
     @IBAction func buttonTapped(_ sender: Any) {
@@ -376,16 +396,17 @@ extension QuestionsViewController {
 
 extension QuestionsViewController {
     
-    func hideTagsBar(){
+    @objc func hideTagsBar(){
         containerViewConstraint.constant = 0 - tagsView.frame.width
-        UIView.animate(withDuration: 1.0,
+        UIView.animate(withDuration: 0.6,
                        delay: 0,
-                       usingSpringWithDamping: 0.4,
-                       initialSpringVelocity: 0.2,
+                       usingSpringWithDamping: 0.6,
+                       initialSpringVelocity: 0.0,
                        options: .curveEaseIn, animations: {
                         self.view.layoutIfNeeded()
         }) { (true) in
             self.tagsBarHidden = true
+            self.checkInteraction()
         }
     }
     
@@ -399,6 +420,7 @@ extension QuestionsViewController {
             self.view.layoutIfNeeded()
         }) { (true) in
             self.tagsBarHidden = false
+            self.checkInteraction()
         }
     }
 }
@@ -410,6 +432,6 @@ extension QuestionsViewController: TagsViewControllerDelegate {
         hideTagsBar()
         DispatchQueue.main.async {
             self.tableView.reloadData()
-        }
+            self.checkInteraction()        }
     }
 }
