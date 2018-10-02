@@ -227,13 +227,13 @@ class QuestionsViewController: UIViewController {
     @objc func screenEdgeSwiped(_ recognizer: UIPanGestureRecognizer) {
         if recognizer.state == UIGestureRecognizerState.began || recognizer.state == UIGestureRecognizerState.changed {
             let translation = recognizer.translation(in: tagsView)
-            print(recognizer.view!.center.y)
-            if(tagsView.center.y <= self.view.center.y) {
+            print(recognizer.view!.center.x)
+            if(tagsView.center.x <= self.view.center.x / 2) {
 //                recognizer.view!.center = CGPointMake(recognizer.view!.center.x, recognizer.view!.center.y + translation.y)
-                tagsView.center = CGPoint(x: recognizer.view!.center.x, y: tagsView.center.y + translation.y)
+                tagsView.center = CGPoint(x: recognizer.view!.center.x + translation.x, y: tagsView.center.y)
             }else {
 //                recognizer.view!.center = CGPointMake(recognizer.view!.center.x, 554)
-                tagsView.center = CGPoint(x: tagsView.center.x / 2, y: self.view.center.y)
+                tagsView.center = CGPoint(x: self.view.center.x / 2, y: self.tableView.center.y)
             }
             
             recognizer.setTranslation(CGPoint.zero, in: self.view)
