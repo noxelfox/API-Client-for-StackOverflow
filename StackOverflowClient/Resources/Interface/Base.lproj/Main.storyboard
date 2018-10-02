@@ -145,10 +145,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="containerViewConstraint" destination="6Gt-1I-2G8" id="HJx-nc-C73"/>
                         <outlet property="pickerTop" destination="iOT-QX-CW9" id="nBJ-6p-RPA"/>
                         <outlet property="pickerView" destination="K2D-OH-zZ4" id="Qv5-YP-PHD"/>
                         <outlet property="tableView" destination="JCY-6D-fye" id="Ozt-ze-AVP"/>
+                        <outlet property="tagsBarLeading" destination="6Gt-1I-2G8" id="HJx-nc-C73"/>
                         <outlet property="tagsView" destination="Ptw-rT-uKd" id="F1y-7o-SVt"/>
                         <segue destination="Pre-L1-8Kl" kind="show" identifier="passID" id="4qf-ZP-d7L"/>
                     </connections>

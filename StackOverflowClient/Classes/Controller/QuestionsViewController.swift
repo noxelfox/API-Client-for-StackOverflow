@@ -35,7 +35,7 @@ class QuestionsViewController: UIViewController {
     @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var tagsView: UIView!
     @IBOutlet weak var pickerTop: NSLayoutConstraint!
-    @IBOutlet weak var containerViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tagsBarLeading: NSLayoutConstraint!
     
     
     @IBAction func tagsButtonTaped(_ sender: Any) {
@@ -62,12 +62,12 @@ class QuestionsViewController: UIViewController {
         loadRefreshControll()
         addLoadMore()
         
-        containerViewConstraint.constant = -tagsView.frame.width
+        tagsBarLeading.constant = -tagsView.frame.width
         
         let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
         edgePan.edges = .left
-        
         view.addGestureRecognizer(edgePan)
+        
         hideBarWhenTap()
     }
 
@@ -397,7 +397,7 @@ extension QuestionsViewController {
 extension QuestionsViewController {
     
     @objc func hideTagsBar(){
-        containerViewConstraint.constant = 0 - tagsView.frame.width
+        tagsBarLeading.constant = 0 - tagsView.frame.width
         UIView.animate(withDuration: 0.6,
                        delay: 0,
                        usingSpringWithDamping: 0.6,
@@ -411,7 +411,7 @@ extension QuestionsViewController {
     }
     
     func showTagsBar(){
-        containerViewConstraint.constant = 0-(tagsView.frame.width * 0.05)
+        tagsBarLeading.constant = 0-(tagsView.frame.width * 0.05)
         UIView.animate(withDuration: 0.5,
                        delay: 0,
                        usingSpringWithDamping: 0.8,
