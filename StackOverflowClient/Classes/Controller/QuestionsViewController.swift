@@ -71,7 +71,7 @@ class QuestionsViewController: UIViewController {
         
         view.addGestureRecognizer(edgePan)
         
-        hideBarWhenTap()
+//        hideBarWhenTap()
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,20 +87,22 @@ class QuestionsViewController: UIViewController {
     }
     
     func hideBarWhenTap(){
-        tableView.isUserInteractionEnabled = true
         let tap: UIGestureRecognizer = UIPanGestureRecognizer(
             target: self,
             action: #selector(self.tagsButtonTaped(_:)))
         
         tap.cancelsTouchesInView = false
-        tagsView.addGestureRecognizer(tap)
+        view.addGestureRecognizer(tap)
     }
     
     func checkInteraction(){
         if tagsBarHidden == true {
-            self.tableView.isUserInteractionEnabled = true
+//            self.tableView.isUserInteractionEnabled = true
+            self.tableView.allowsSelection = true
         } else {
-            self.tableView.isUserInteractionEnabled = false
+//            self.tableView.isUserInteractionEnabled = false
+            self.tableView.allowsSelection = false
+//            self.tableView.indexPathsForVisibleRows
         }
     }
     
@@ -226,11 +228,15 @@ class QuestionsViewController: UIViewController {
     
     @objc func screenEdgeSwiped(_ recognizer: UIPanGestureRecognizer) {
         if recognizer.state == UIGestureRecognizerState.began || recognizer.state == UIGestureRecognizerState.changed {
-            let translation = recognizer.translation(in: tagsView)
-            if(tagsBarLeading.constant < -10) {
+            let translation = recognizer.translation(in: self.view)
+            if (tagsBarLeading.constant < -10) {
+                tagsBarLeading.constant = tagsBarLeading.constant + translation.x
+            }
+            if (tagsBarLeading.constant >= -10) {
                 tagsBarLeading.constant = tagsBarLeading.constant + translation.x
             }
             recognizer.setTranslation(CGPoint.zero, in: self.view)
+            
         }
         if recognizer.state == .ended {
             if (tagsBarLeading.constant < -(tagsView.frame.width/2)) {
@@ -331,10 +337,11 @@ extension QuestionsViewController : UITableViewDelegate, UITableViewDataSource {
                         }
                     } else {
                         self.callAPIforQuestions(callTag: self.currentTag, callPage: self.page)
-                        for i in 0..<3 {
-                            print(i)
-                            sleep(1)
-                        }
+//                        for i in 0..<3 {
+//                            print(i)
+//                            sleep(1)
+//                        }
+                        sleep(1)
                         DispatchQueue.main.async { [weak self] in
                             self?.tableView.reloadData()
                             self?.loadMoreIndicator.loadMoreActionFinshed(scrollView: scrollView)
