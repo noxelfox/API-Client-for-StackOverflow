@@ -101,7 +101,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ptw-rT-uKd">
                                 <rect key="frame" x="0.0" y="64" width="180" height="603"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="180" id="fO8-WJ-0HB"/>
+                                    <constraint firstAttribute="width" constant="180" identifier="tagsWidth" id="fO8-WJ-0HB"/>
                                 </constraints>
                                 <connections>
                                     <segue destination="jyU-0D-rXS" kind="embed" identifier="passTag" id="TrM-wB-1RN"/>
@@ -117,7 +117,7 @@
                             <constraint firstItem="JCY-6D-fye" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Qre-bz-20e"/>
                             <constraint firstItem="JCY-6D-fye" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="X7Q-PR-6pB"/>
                             <constraint firstItem="K2D-OH-zZ4" firstAttribute="top" secondItem="Ptw-rT-uKd" secondAttribute="bottom" id="Yrh-l5-QKt"/>
-                            <constraint firstItem="Ptw-rT-uKd" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="hem-Bo-Cjy"/>
+                            <constraint firstItem="Ptw-rT-uKd" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.5" id="hem-Bo-Cjy"/>
                             <constraint firstItem="K2D-OH-zZ4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="iOT-QX-CW9"/>
                             <constraint firstItem="K2D-OH-zZ4" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="k27-5R-pzB"/>
                             <constraint firstItem="K2D-OH-zZ4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="qmR-5I-isp"/>

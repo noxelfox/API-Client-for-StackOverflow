@@ -210,22 +210,29 @@ class QuestionsViewController: UIViewController {
         if recognizer.state == UIGestureRecognizerState.began || recognizer.state == UIGestureRecognizerState.changed {
             let translation = recognizer.translation(in: self.view)
             
-            if (tagsBarLeading.constant < -10) {
-                tagsBarLeading.constant = tagsBarLeading.constant + translation.x
-            }
+            var finalConstant = tagsBarLeading.constant + translation.x
             
-            if (tagsBarLeading.constant == -10) {
-                tagsBarLeading.constant = tagsBarLeading.constant + translation.x
-            }
+//            if finalConstant > 0 {
+//                finalConstant = 0
+//            } else if finalConstant < -self.tagsView.bounds.width {
+//                finalConstant = -self.tagsView.bounds.width
+//            }
             
-            recognizer.setTranslation(CGPoint.zero, in: self.view)
+            finalConstant = min(0, finalConstant)
+            finalConstant = max(-self.tagsView.bounds.width, finalConstant)
+            
+            self.tagsBarLeading.constant = finalConstant
+
+            if tagsView.frame.maxX < self.view.frame.midX {
+                recognizer.setTranslation(CGPoint.zero, in: self.view)
+            }
         }
         if recognizer.state == .ended {
             if (tagsBarLeading.constant < -(tagsView.frame.width/2)) {
                 tagsBarLeading.constant = -tagsView.frame.width-50
                 self.tagsBarHidden = true
             } else {
-                tagsBarLeading.constant = -10
+                tagsBarLeading.constant = 0
                 self.tagsBarHidden = false
             }
             self.checkInteraction()
