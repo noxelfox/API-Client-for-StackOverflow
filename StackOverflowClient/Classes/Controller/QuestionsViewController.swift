@@ -179,10 +179,10 @@ class QuestionsViewController: UIViewController {
             for item in items {
                 if item.lastEditDate == nil {
                     let nullDate = item.lastActivityDate
-                    let question = Case(caseAuthor: item.owner.displayName as String, caseLastEdit: nullDate , caseTitle: item.title as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil, isZero: nil)
+                    let question = Case(caseAuthor: item.owner.displayName.decodeTitleSymbols() as String, caseLastEdit: nullDate, caseTitle: item.title.decodeTitleSymbols() as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil, isZero: nil)
                     self.questions.append(question)
                 } else {
-                    let question = Case(caseAuthor: item.owner.displayName as String, caseLastEdit: item.lastActivityDate as Date, caseTitle: item.title as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil, isZero: nil)
+                    let question = Case(caseAuthor: item.owner.displayName.decodeTitleSymbols() as String, caseLastEdit: item.lastActivityDate as Date, caseTitle: item.title.decodeTitleSymbols() as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil, isZero: nil)
                     self.questions.append(question)
                 }
             }
@@ -232,7 +232,7 @@ class QuestionsViewController: UIViewController {
             if (tagsBarLeading.constant < -10) {
                 tagsBarLeading.constant = tagsBarLeading.constant + translation.x
             }
-            if (tagsBarLeading.constant >= -10) {
+            if (tagsBarLeading.constant == -10) {
                 tagsBarLeading.constant = tagsBarLeading.constant + translation.x
             }
             recognizer.setTranslation(CGPoint.zero, in: self.view)
@@ -255,6 +255,7 @@ class QuestionsViewController: UIViewController {
 //            showTagsBar()
 //        }
 //    }
+    
     
     // MARK: - Shake gesture
     
@@ -301,10 +302,10 @@ extension QuestionsViewController : UITableViewDelegate, UITableViewDataSource {
         let indexQuestion = questions[indexPath.row]
         
         // Configure the cell...
-        cell.cellAuthor.text = indexQuestion.caseAuthor.decodeTitleSymbols()
+        cell.cellAuthor.text = indexQuestion.caseAuthor
         cell.cellDate.text = indexQuestion.caseLastEdit.timeAgoDisplay()
         cell.cellNumAnswers.text = "|\(indexQuestion.caseNum.description)"
-        cell.cellText.text = indexQuestion.caseTitle.decodeTitleSymbols()
+        cell.cellText.text = indexQuestion.caseTitle
         
         return cell
     }

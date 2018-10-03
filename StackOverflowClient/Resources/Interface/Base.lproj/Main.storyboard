@@ -117,7 +117,7 @@
                             <constraint firstItem="JCY-6D-fye" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Qre-bz-20e"/>
                             <constraint firstItem="JCY-6D-fye" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="X7Q-PR-6pB"/>
                             <constraint firstItem="K2D-OH-zZ4" firstAttribute="top" secondItem="Ptw-rT-uKd" secondAttribute="bottom" id="Yrh-l5-QKt"/>
-                            <constraint firstItem="Ptw-rT-uKd" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.5" id="hem-Bo-Cjy"/>
+                            <constraint firstItem="Ptw-rT-uKd" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="hem-Bo-Cjy"/>
                             <constraint firstItem="K2D-OH-zZ4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="iOT-QX-CW9"/>
                             <constraint firstItem="K2D-OH-zZ4" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="k27-5R-pzB"/>
                             <constraint firstItem="K2D-OH-zZ4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="qmR-5I-isp"/>
@@ -166,7 +166,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="umy-kV-sQq" userLabel="ContentView">
-                                <rect key="frame" x="0.0" y="20" width="180" height="583"/>
+                                <rect key="frame" x="0.0" y="0.0" width="180" height="583"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="yAl-II-1Af">
                                         <rect key="frame" x="0.0" y="0.0" width="180" height="583"/>
@@ -240,18 +240,20 @@
                                                 </constraints>
                                             </view>
                                         </subviews>
+                                        <color key="backgroundColor" red="0.1215686277" green="0.1294117719" blue="0.1411764771" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="fRU-46-POJ" firstAttribute="leading" secondItem="yAl-II-1Af" secondAttribute="leading" id="6JZ-Oc-vNq"/>
                                             <constraint firstItem="fRU-46-POJ" firstAttribute="top" secondItem="yAl-II-1Af" secondAttribute="top" id="Lqm-eD-rvw"/>
                                             <constraint firstAttribute="trailing" secondItem="fRU-46-POJ" secondAttribute="trailing" id="V9g-zt-hZo"/>
                                             <constraint firstItem="XfZ-DW-R4W" firstAttribute="top" secondItem="fRU-46-POJ" secondAttribute="bottom" id="Xit-G6-MsW"/>
+                                            <constraint firstItem="XfZ-DW-R4W" firstAttribute="width" secondItem="fRU-46-POJ" secondAttribute="width" id="usL-4B-NrN"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="yAl-II-1Af" firstAttribute="width" secondItem="umy-kV-sQq" secondAttribute="width" id="49q-k6-BdJ"/>
-                                    <constraint firstItem="XfZ-DW-R4W" firstAttribute="height" secondItem="umy-kV-sQq" secondAttribute="height" multiplier="0.8" id="JX5-oa-GMf"/>
+                                    <constraint firstAttribute="height" secondItem="XfZ-DW-R4W" secondAttribute="height" multiplier="1.25" id="JX5-oa-GMf"/>
                                     <constraint firstItem="fRU-46-POJ" firstAttribute="height" secondItem="umy-kV-sQq" secondAttribute="height" multiplier="0.2" id="Jf6-0X-Piw"/>
                                     <constraint firstItem="yAl-II-1Af" firstAttribute="top" secondItem="umy-kV-sQq" secondAttribute="top" id="NY7-NH-tvd"/>
                                     <constraint firstItem="yAl-II-1Af" firstAttribute="leading" secondItem="umy-kV-sQq" secondAttribute="leading" id="wbX-Dm-JIl"/>
@@ -259,13 +261,12 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.1215686277" green="0.1294117719" blue="0.1411764771" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="XfZ-DW-R4W" firstAttribute="width" secondItem="XZS-jS-zxe" secondAttribute="width" id="CrL-dt-RVX"/>
-                            <constraint firstItem="umy-kV-sQq" firstAttribute="height" secondItem="b5q-ue-rR6" secondAttribute="height" id="FLM-b6-p5k"/>
-                            <constraint firstItem="umy-kV-sQq" firstAttribute="leading" secondItem="b5q-ue-rR6" secondAttribute="leading" id="c84-D5-hdm"/>
-                            <constraint firstItem="umy-kV-sQq" firstAttribute="top" secondItem="b5q-ue-rR6" secondAttribute="top" id="dbu-c9-82x"/>
-                            <constraint firstItem="umy-kV-sQq" firstAttribute="width" secondItem="b5q-ue-rR6" secondAttribute="width" id="jw5-VA-uMs"/>
+                            <constraint firstItem="umy-kV-sQq" firstAttribute="width" secondItem="XZS-jS-zxe" secondAttribute="width" id="QUa-yy-uN9"/>
+                            <constraint firstItem="umy-kV-sQq" firstAttribute="trailing" secondItem="b5q-ue-rR6" secondAttribute="trailing" id="QYG-21-8dx"/>
+                            <constraint firstAttribute="bottom" secondItem="umy-kV-sQq" secondAttribute="bottom" constant="20" symbolic="YES" id="U96-oU-4Y5"/>
+                            <constraint firstItem="umy-kV-sQq" firstAttribute="height" secondItem="b5q-ue-rR6" secondAttribute="height" id="uRx-A1-8Kc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="b5q-ue-rR6"/>
                     </view>
