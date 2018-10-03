@@ -49,7 +49,6 @@ class QuestionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
-
         pickerView.delegate = self
         pickerView.dataSource = self
         pickerView.isHidden = true
@@ -210,14 +209,16 @@ class QuestionsViewController: UIViewController {
     @objc func screenEdgeSwiped(_ recognizer: UIPanGestureRecognizer) {
         if recognizer.state == UIGestureRecognizerState.began || recognizer.state == UIGestureRecognizerState.changed {
             let translation = recognizer.translation(in: self.view)
+            
             if (tagsBarLeading.constant < -10) {
                 tagsBarLeading.constant = tagsBarLeading.constant + translation.x
             }
+            
             if (tagsBarLeading.constant == -10) {
                 tagsBarLeading.constant = tagsBarLeading.constant + translation.x
             }
-            recognizer.setTranslation(CGPoint.zero, in: self.view)
             
+            recognizer.setTranslation(CGPoint.zero, in: self.view)
         }
         if recognizer.state == .ended {
             if (tagsBarLeading.constant < -(tagsView.frame.width/2)) {

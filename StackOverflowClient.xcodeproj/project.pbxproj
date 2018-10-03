@@ -121,7 +121,6 @@
 			children = (
 				634A26E6212FFBD4008479DC /* Classes */,
 				633F9E6F213D1FED00479748 /* _common */,
-				6360F73B215BBE920051C632 /* Protocols */,
 				634A26E921301141008479DC /* Resources */,
 			);
 			path = StackOverflowClient;
@@ -202,13 +201,6 @@
 				634A26DF212FF53E008479DC /* Info.plist */,
 			);
 			path = Plists;
-			sourceTree = "<group>";
-		};
-		6360F73B215BBE920051C632 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 		63E6A686215109BE00526F39 /* Extensions */ = {
