@@ -62,16 +62,9 @@ class QuestionsViewController: UIViewController {
         loadRefreshControll()
         addLoadMore()
         
-        tagsBarLeading.constant = -tagsView.frame.width
-        
+        tagsBarLeading.constant = -tagsView.frame.width-50
         let edgePan = UIPanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
-        
-//        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
-//        edgePan.edges = .left
-        
         view.addGestureRecognizer(edgePan)
-        
-//        hideBarWhenTap()
     }
 
     override func didReceiveMemoryWarning() {
@@ -86,21 +79,10 @@ class QuestionsViewController: UIViewController {
         return true
     }
     
-    func hideBarWhenTap(){
-        let tap: UIGestureRecognizer = UIPanGestureRecognizer(
-            target: self,
-            action: #selector(self.tagsButtonTaped(_:)))
-        
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
     func checkInteraction(){
         if tagsBarHidden == true {
-//            self.tableView.isUserInteractionEnabled = true
             self.tableView.allowsSelection = true
         } else {
-//            self.tableView.isUserInteractionEnabled = false
             self.tableView.allowsSelection = false
         }
     }
@@ -239,7 +221,7 @@ class QuestionsViewController: UIViewController {
         }
         if recognizer.state == .ended {
             if (tagsBarLeading.constant < -(tagsView.frame.width/2)) {
-                tagsBarLeading.constant = -tagsView.frame.width
+                tagsBarLeading.constant = -tagsView.frame.width-50
                 self.tagsBarHidden = true
             } else {
                 tagsBarLeading.constant = -10
@@ -248,14 +230,7 @@ class QuestionsViewController: UIViewController {
             self.checkInteraction()
         }
     }
-    
-//    @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
-//        if recognizer.state == .recognized {
-//            showTagsBar()
-//        }
-//    }
-    
-    
+  
     // MARK: - Shake gesture
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
@@ -337,11 +312,7 @@ extension QuestionsViewController : UITableViewDelegate, UITableViewDataSource {
                         }
                     } else {
                         self.callAPIforQuestions(callTag: self.currentTag, callPage: self.page)
-//                        for i in 0..<3 {
-//                            print(i)
-//                            sleep(1)
-//                        }
-                        sleep(1)
+                        sleep(1) //не убирать, иначе при подгрузке будет спам запроссами к API
                         DispatchQueue.main.async { [weak self] in
                             self?.tableView.reloadData()
                             self?.loadMoreIndicator.loadMoreActionFinshed(scrollView: scrollView)
@@ -407,18 +378,18 @@ extension QuestionsViewController : UIPickerViewDelegate, UIPickerViewDataSource
 extension QuestionsViewController {
     
     func showLoadingTableIndicator(){
-        loadTableIndicator.center = self.view.center;
-        loadTableIndicator.hidesWhenStopped = true;
-        loadTableIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
-        view.addSubview(loadTableIndicator);
+        loadTableIndicator.center = self.view.center
+        loadTableIndicator.hidesWhenStopped = true
+        loadTableIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(loadTableIndicator)
         
-        loadTableIndicator.startAnimating();
-        UIApplication.shared.beginIgnoringInteractionEvents();
+        loadTableIndicator.startAnimating()
+        UIApplication.shared.beginIgnoringInteractionEvents()
     }
     
     func hideLoadingTableIndicator(){
-        loadTableIndicator.stopAnimating();
-        UIApplication.shared.endIgnoringInteractionEvents();
+        loadTableIndicator.stopAnimating()
+        UIApplication.shared.endIgnoringInteractionEvents()
     }
 }
 
