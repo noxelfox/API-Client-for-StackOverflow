@@ -91,6 +91,6 @@ class LoadMoreActivityIndicator {
             scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         }
         activityIndicatorView.stopAnimating()
-        activityIndicatorView.isHidden = false
+        activityIndicatorView.isHidden = true
     }
 }

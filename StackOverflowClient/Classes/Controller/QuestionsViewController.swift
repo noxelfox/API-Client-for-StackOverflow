@@ -102,7 +102,6 @@ class QuestionsViewController: UIViewController {
         } else {
 //            self.tableView.isUserInteractionEnabled = false
             self.tableView.allowsSelection = false
-//            self.tableView.indexPathsForVisibleRows
         }
     }
     
