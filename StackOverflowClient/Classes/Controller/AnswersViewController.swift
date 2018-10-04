@@ -15,6 +15,7 @@ class AnswersViewController: UIViewController {
     let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
     let requestManager = RequestManager()
     let dateFormatter = DateFormatter()
+    let networkChecker = NetworkChecker()
     private let refreshControl = UIRefreshControl()
     
     var answers = [Case]()
@@ -25,11 +26,14 @@ class AnswersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableFooterView = UIView()
         
         self.title = questionID.description
         
-        showLoadingTableIndicator()
-        callAPIforAnswers(questionID: questionID)
+        if networkChecker.checkConnection(caller: self) == true {
+            showLoadingTableIndicator()
+            callAPIforAnswers(questionID: questionID)
+        }
         tableView.reloadData()
         loadRefreshControll()
     }
@@ -55,7 +59,6 @@ class AnswersViewController: UIViewController {
             }
             
             // MARK: - Parsing response <QuestionResponse> into Case object
-            
             self.parseAnswersResponse(actualResponse: actualResponse)
             DispatchQueue.main.async {
                 self.tableView.reloadData()

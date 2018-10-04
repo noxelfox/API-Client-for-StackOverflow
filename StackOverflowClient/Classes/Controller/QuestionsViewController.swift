@@ -9,38 +9,61 @@
 import UIKit
 import Alamofire
 import Cache
+import AVFoundation
+import AudioToolbox
 
 class QuestionsViewController: UIViewController {
     
     let requestManager = RequestManager()
     let dateFormatter = DateFormatter()
     let loadTableIndicator: UIActivityIndicatorView = UIActivityIndicatorView();
+    let networkChecker = NetworkChecker()
     private let refreshControl = UIRefreshControl()
-        
+    
+    var tagsViewController: TagsViewController?
+    var loadMoreIndicator: LoadMoreActivityIndicator!
+    
     var questions = [Case]()
     var page = 1
     var questionID = 0
     var questionDate: Date = Date.distantPast
-    var loadMoreIndicator: LoadMoreActivityIndicator!
     var currentTag: Tags = .swift
     var hasMore: Bool = false
+    var tagsBarHidden = true
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var tagsView: UIView!
     @IBOutlet weak var pickerTop: NSLayoutConstraint!
+    @IBOutlet weak var tagsBarLeading: NSLayoutConstraint!
+    
+    
+    @IBAction func tagsButtonTaped(_ sender: Any) {
+        if tagsBarHidden == true {
+            showTagsBar()
+        } else {
+            hideTagsBar()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        tableView.tableFooterView = UIView()
         pickerView.delegate = self
         pickerView.dataSource = self
         pickerView.isHidden = true
         
-        showLoadingTableIndicator()
-        callAPIforQuestions(callTag: currentTag, callPage: page)
+        if networkChecker.checkConnection(caller: self) == true {
+            showLoadingTableIndicator()
+            callAPIforQuestions(callTag: currentTag, callPage: page)
+        }
         tableView.reloadData()
         loadRefreshControll()
         addLoadMore()
+        
+        tagsBarLeading.constant = -tagsView.frame.width-50
+        let edgePan = UIPanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
+        view.addGestureRecognizer(edgePan)
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,6 +76,14 @@ class QuestionsViewController: UIViewController {
     
     override func becomeFirstResponder() -> Bool {
         return true
+    }
+    
+    func checkInteraction(){
+        if tagsBarHidden == true {
+            self.tableView.allowsSelection = true
+        } else {
+            self.tableView.allowsSelection = false
+        }
     }
     
     @IBAction func buttonTapped(_ sender: Any) {
@@ -100,9 +131,11 @@ class QuestionsViewController: UIViewController {
                 
                 // MARK: - Caching...
                 
-                do {
-                    try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)", expiry: .date(Date().addingTimeInterval(1 * 300)))
-                } catch { print(error) }
+                if self.networkChecker.checkConnection(caller: self) == true {
+                    do {
+                        try self.requestManager.storage?.setObject(response.result.value!, forKey: "cache \(callTag) \(callPage)", expiry: .date(Date().addingTimeInterval(1 * 300)))
+                    } catch { print(error) }
+                }
                 
                 // MARK: - Parsing response <QuestionResponse> into Case object
                 
@@ -126,10 +159,10 @@ class QuestionsViewController: UIViewController {
             for item in items {
                 if item.lastEditDate == nil {
                     let nullDate = item.lastActivityDate
-                    let question = Case(caseAuthor: item.owner.displayName as String, caseLastEdit: nullDate , caseTitle: item.title as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil, isZero: nil)
+                    let question = Case(caseAuthor: item.owner.displayName.decodeTitleSymbols() as String, caseLastEdit: nullDate, caseTitle: item.title.decodeTitleSymbols() as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil, isZero: nil)
                     self.questions.append(question)
                 } else {
-                    let question = Case(caseAuthor: item.owner.displayName as String, caseLastEdit: item.lastActivityDate as Date, caseTitle: item.title as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil, isZero: nil)
+                    let question = Case(caseAuthor: item.owner.displayName.decodeTitleSymbols() as String, caseLastEdit: item.lastActivityDate as Date, caseTitle: item.title.decodeTitleSymbols() as String, caseNum: item.answerCount as Int, caseId: item.questionID, isAccepted: nil, isZero: nil)
                     self.questions.append(question)
                 }
             }
@@ -173,13 +206,51 @@ class QuestionsViewController: UIViewController {
         self.refreshControl.endRefreshing()
     }
     
+    @objc func screenEdgeSwiped(_ recognizer: UIPanGestureRecognizer) {
+        if recognizer.state == UIGestureRecognizerState.began || recognizer.state == UIGestureRecognizerState.changed {
+            let translation = recognizer.translation(in: self.view)
+            
+            var finalConstant = tagsBarLeading.constant + translation.x
+            
+//            if finalConstant > 0 {
+//                finalConstant = 0
+//            } else if finalConstant < -self.tagsView.bounds.width {
+//                finalConstant = -self.tagsView.bounds.width
+//            }
+            
+            finalConstant = min(0, finalConstant)
+            finalConstant = max(-self.tagsView.bounds.width, finalConstant)
+            
+            self.tagsBarLeading.constant = finalConstant
+
+            if tagsView.frame.maxX < self.view.frame.midX {
+                recognizer.setTranslation(CGPoint.zero, in: self.view)
+            }
+        }
+        if recognizer.state == .ended {
+            if (tagsBarLeading.constant < -(tagsView.frame.width/2)) {
+                tagsBarLeading.constant = -tagsView.frame.width-50
+                self.tagsBarHidden = true
+            } else {
+                tagsBarLeading.constant = 0
+                self.tagsBarHidden = false
+            }
+            self.checkInteraction()
+        }
+    }
+  
     // MARK: - Shake gesture
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             print("shaked")
+            buttonTapped(self)
+            AudioServicesPlaySystemSound(SystemSoundID(1101))
+            AudioServicesPlaySystemSound(SystemSoundID(1100))
         }
     }
+    
+    // MARK: - Segue
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "passID" {
@@ -187,6 +258,9 @@ class QuestionsViewController: UIViewController {
                 destinationVC.questionID = questionID
                 destinationVC.questionDate = questionDate
             }
+        }
+        if let tagsVC = segue.destination as? TagsViewController {
+            tagsVC.delegate = self
         }
     }
 }
@@ -210,10 +284,10 @@ extension QuestionsViewController : UITableViewDelegate, UITableViewDataSource {
         let indexQuestion = questions[indexPath.row]
         
         // Configure the cell...
-        cell.cellAuthor.text = indexQuestion.caseAuthor.decodeTitleSymbols()
+        cell.cellAuthor.text = indexQuestion.caseAuthor
         cell.cellDate.text = indexQuestion.caseLastEdit.timeAgoDisplay()
         cell.cellNumAnswers.text = "|\(indexQuestion.caseNum.description)"
-        cell.cellText.text = indexQuestion.caseTitle.decodeTitleSymbols()
+        cell.cellText.text = indexQuestion.caseTitle
         
         return cell
     }
@@ -246,10 +320,7 @@ extension QuestionsViewController : UITableViewDelegate, UITableViewDataSource {
                         }
                     } else {
                         self.callAPIforQuestions(callTag: self.currentTag, callPage: self.page)
-                        for i in 0..<3 {
-                            print(i)
-                            sleep(1)
-                        }
+                        sleep(1) //не убирать, иначе при подгрузке будет спам запроссами к API
                         DispatchQueue.main.async { [weak self] in
                             self?.tableView.reloadData()
                             self?.loadMoreIndicator.loadMoreActionFinshed(scrollView: scrollView)
@@ -315,17 +386,62 @@ extension QuestionsViewController : UIPickerViewDelegate, UIPickerViewDataSource
 extension QuestionsViewController {
     
     func showLoadingTableIndicator(){
-        loadTableIndicator.center = self.view.center;
-        loadTableIndicator.hidesWhenStopped = true;
-        loadTableIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
-        view.addSubview(loadTableIndicator);
+        loadTableIndicator.center = self.view.center
+        loadTableIndicator.hidesWhenStopped = true
+        loadTableIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(loadTableIndicator)
         
-        loadTableIndicator.startAnimating();
-        UIApplication.shared.beginIgnoringInteractionEvents();
+        loadTableIndicator.startAnimating()
+        UIApplication.shared.beginIgnoringInteractionEvents()
     }
     
     func hideLoadingTableIndicator(){
-        loadTableIndicator.stopAnimating();
-        UIApplication.shared.endIgnoringInteractionEvents();
+        loadTableIndicator.stopAnimating()
+        UIApplication.shared.endIgnoringInteractionEvents()
+    }
+}
+
+// MARK: - Side bar extension
+
+extension QuestionsViewController {
+    
+    @objc func hideTagsBar(){
+        tagsBarLeading.constant = 0 - tagsView.frame.width
+        UIView.animate(withDuration: 0.6,
+                       delay: 0,
+                       usingSpringWithDamping: 0.6,
+                       initialSpringVelocity: 0.0,
+                       options: .curveEaseIn, animations: {
+                        self.view.layoutIfNeeded()
+        }) { (true) in
+            self.tagsBarHidden = true
+            self.checkInteraction()
+        }
+    }
+    
+    func showTagsBar(){
+        tagsBarLeading.constant = 0-(tagsView.frame.width * 0.05)
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 5,
+                       options: .curveEaseInOut, animations: {
+            self.view.layoutIfNeeded()
+        }) { (true) in
+            self.tagsBarHidden = false
+            self.checkInteraction()
+        }
+    }
+}
+
+extension QuestionsViewController: TagsViewControllerDelegate {
+
+    func didSelectTag(_ tag: Tags) {
+        changeTag(newTag: tag)
+        hideTagsBar()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.checkInteraction()
+        }
     }
 }
