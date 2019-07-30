@@ -70,7 +70,7 @@ class LoadMoreActivityIndicator {
                 if activityIndicatorView.isAnimating && scrollView.contentInset.bottom == 0 {
                     UIView.animate(withDuration: 0.3) { [weak self] in
                         if let bottom = self?.spacingFromLastCellWhenLoadMoreActionStart {
-                            scrollView.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0)
+                            scrollView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: bottom, right: 0)
                         }
                     }
                 }
@@ -84,11 +84,11 @@ class LoadMoreActivityIndicator {
         if offsetDelta >= 0 {
             // Animate hiding when activity indicator displaying
             UIView.animate(withDuration: 0.3) {
-                scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+                scrollView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
             }
         } else {
             // Hiding without animation when activity indicator displaying
-            scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+            scrollView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
         }
         activityIndicatorView.stopAnimating()
         activityIndicatorView.isHidden = true

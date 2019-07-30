@@ -19,8 +19,8 @@ class NetworkChecker {
     
     func checkConnection(caller: UIViewController) -> Bool {
         if isNetworkReachable() == false {
-            let alert = UIAlertController(title: "Oops...", message: "Looks like you don't have internet connection", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            let alert = UIAlertController(title: "Oops...", message: "Looks like you don't have internet connection", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             caller.present(alert, animated: true, completion: nil)
             return false
         } else {

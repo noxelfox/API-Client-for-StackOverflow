@@ -70,7 +70,7 @@ class QuestionsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
         questions.removeAll()
-        try? requestManager.storage?.removeAll()
+        ((try? requestManager.storage?.removeAll()) as ()??)
         tableView.reloadData()
     }
     
@@ -99,9 +99,9 @@ class QuestionsViewController: UIViewController {
         
         // MARK: - Force removing cache if Expired
         
-        try? requestManager.storage?.removeExpiredObjects()
+        ((try? requestManager.storage?.removeExpiredObjects()) as ()??)
         
-        let hasCachedResponse = try? self.requestManager.storage?.existsObject(forKey: "cache \(callTag) \(callPage)")
+        let hasCachedResponse = ((try? self.requestManager.storage?.existsObject(forKey: "cache \(callTag) \(callPage)")) as Bool??)
         print("\nHAS CACHE FOR RESPONSE: \(String(describing: hasCachedResponse.unsafelyUnwrapped!).uppercased())\n")
         
         // MARK: - Checking for cached response. If FALSE - do API request
@@ -207,7 +207,7 @@ class QuestionsViewController: UIViewController {
     }
     
     @objc func screenEdgeSwiped(_ recognizer: UIPanGestureRecognizer) {
-        if recognizer.state == UIGestureRecognizerState.began || recognizer.state == UIGestureRecognizerState.changed {
+        if recognizer.state == UIGestureRecognizer.State.began || recognizer.state == UIGestureRecognizer.State.changed {
             let translation = recognizer.translation(in: self.view)
             
             var finalConstant = tagsBarLeading.constant + translation.x
@@ -241,7 +241,7 @@ class QuestionsViewController: UIViewController {
   
     // MARK: - Shake gesture
     
-    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             print("shaked")
             buttonTapped(self)
@@ -306,7 +306,7 @@ extension QuestionsViewController : UITableViewDelegate, UITableViewDataSource {
             loadMoreIndicator.scrollViewDidScroll(scrollView: scrollView) {
                 DispatchQueue.global(qos: .utility).async {
                     self.page = self.page + 1
-                    let hasCachedResponse = try? self.requestManager.storage?.existsObject(forKey: "cache \(self.currentTag) \(self.page)")
+                    let hasCachedResponse = ((try? self.requestManager.storage?.existsObject(forKey: "cache \(self.currentTag) \(self.page)")) as Bool??)
                     
                     if hasCachedResponse == true {
                         self.parseQuestionResponse(actualResponse: try! self.requestManager.storage?.object(forKey: "cache \(self.currentTag) \(self.page)"))
@@ -357,7 +357,7 @@ extension QuestionsViewController : UIPickerViewDelegate, UIPickerViewDataSource
     
     public func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let titleData = Tags.tagArray[row]
-        let myTitle = NSAttributedString(string: titleData.rawValue, attributes: [NSAttributedStringKey.font:UIFont(name: "Helvetica", size: 20.0)!,NSAttributedStringKey.foregroundColor:UIColor.white])
+        let myTitle = NSAttributedString(string: titleData.rawValue, attributes: [NSAttributedString.Key.font:UIFont(name: "Helvetica", size: 20.0)!,NSAttributedString.Key.foregroundColor:UIColor.white])
         return myTitle
     }
     
@@ -388,7 +388,7 @@ extension QuestionsViewController {
     func showLoadingTableIndicator(){
         loadTableIndicator.center = self.view.center
         loadTableIndicator.hidesWhenStopped = true
-        loadTableIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        loadTableIndicator.style = UIActivityIndicatorView.Style.gray
         view.addSubview(loadTableIndicator)
         
         loadTableIndicator.startAnimating()

@@ -263,6 +263,7 @@
 				TargetAttributes = {
 					634A26CF212FF53D008479DC = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -505,7 +506,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TPNPUBH8ML;
+				DEVELOPMENT_TEAM = KLYWUPKR8Y;
 				INFOPLIST_FILE = "$(SRCROOT)/StackOverflowClient/Resources/Plists/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -514,7 +515,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = HTC.StackOverflowClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -525,7 +526,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TPNPUBH8ML;
+				DEVELOPMENT_TEAM = KLYWUPKR8Y;
 				INFOPLIST_FILE = "$(SRCROOT)/StackOverflowClient/Resources/Plists/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -534,7 +535,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = HTC.StackOverflowClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

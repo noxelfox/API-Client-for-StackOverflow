@@ -175,7 +175,7 @@ extension AnswersViewController {
     func showLoadingTableIndicator(){
         loadTableIndicator.center = self.view.center;
         loadTableIndicator.hidesWhenStopped = true;
-        loadTableIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray;
+        loadTableIndicator.style = UIActivityIndicatorView.Style.gray;
         view.addSubview(loadTableIndicator);
         
         loadTableIndicator.startAnimating();
